@@ -5,6 +5,6 @@ Projeto criado para a disciplina de Laboratório de Engenharia de Software do cu
 Alunos:
 
 Alan Rodrigues de Almeida
-Claudemir de Souza Freitas Júnior
+Claudemir de Souza Freitas Junior
 Luís Gustavo Madoglio
 João Francisco Lopes Soares
