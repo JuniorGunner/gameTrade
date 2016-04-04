@@ -1,3 +1,10 @@
+/*definicao da fonte*/
+@font-face {
+    font-family: offside;
+    src: url(Offside-Regular.ttf);
+
+}
+
 /* Remove the navbar's default margin-bottom and rounded borders */
 .navbar {
   margin-bottom: 0;
@@ -16,11 +23,10 @@
 
 /* Set black background color, white text and some padding */
 footer {
-  background-color: #555;
+  background-color: #2B4C70;
   color: white;
   padding: 15px;
 }
-
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
   .sidenav {
@@ -42,3 +48,68 @@ footer {
     display: none;
   }
 }
+
+
+/* User defined */
+.form-group .radio{
+  margin-top: 1.5%;
+}
+
+#logo-img{
+  height: 100%;
+}
+
+.unselected-radio{
+    color: #C9C9C9;
+}
+
+.selected-radio{
+  color: #FFFFFF;
+}
+
+h1, h2, h3, h4{
+    font-family: offside;
+}
+
+.sidenav{
+    height: 100vh;
+}
+
+.ad-img{
+    width: 100%;
+}
+
+#ad > .well{
+    background-color: #fba600;
+}
+
+#features > .well{
+    background-color: white;
+}
+
+.sidenav{
+    background-color: #c9c9c9;
+}
+
+/*navbar color-scheme*/
+.nav{background-color: #2B4C70}
+.navbar-inverse { background-color: #2B4C70}
+.navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { background-color: #467DB8}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #467DB8}
+.dropdown-menu { background-color: #FFFFFF}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-color: #2B4C70}
+.navbar-inverse { background-image: none; }
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-image: none; }
+.navbar-inverse { border-color: #2B4C70}
+.navbar-inverse .navbar-brand { color: #FFFFFF}
+.navbar-inverse .navbar-brand:hover { color: #FFFFFF}
+.navbar-inverse .navbar-nav>li>a { color: #C9C9C9}
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus { color: #FFFFFF}
+.dropdown-menu>li>a { color: #333333}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a .caret { border-top-color: #999999}
+.navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-top-color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a .caret { border-bottom-color: #999999}
+.navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #FFFFFF}
