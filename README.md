@@ -1,6 +1,6 @@
-# gameTrade
+# Game Trade
 
-Projeto criado para a disciplina de Laboratório de Engenharia de Software do curso de ciência da computação da Universidade de Sorocaba - Uniso
+Projeto criado para a disciplina de Laboratório de Engenharia de Software do curso de Ciência da Computação da Universidade de Sorocaba - Uniso
 
 Alunos:
 
