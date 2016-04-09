@@ -61,20 +61,20 @@ class Status(models.Model):
     description = models.CharField(max_length = 100)
 
 class Trades(models.Model):
-    id_user_requester = models.ForeignKey(Users)
-    id_user_requested = models.ForeignKey(Users)
+    id_user_requester = models.ForeignKey(Users, related_name = 'trades_users_requester')
+    id_user_requested = models.ForeignKey(Users, related_name = 'trades_user_requested')
     user_requester_status = models.BooleanField()
     user_requested_status = models.BooleanField()
-    id_game_requester = models.ForeignKey(Games)
-    id_game_requested = models.ForeignKey(Games)
+    id_game_requester = models.ForeignKey(Games, related_name = 'trades_games_requester')
+    id_game_requested = models.ForeignKey(Games, related_name = 'trades_games_requested')
     id_trade_kind = models.ForeignKey(Trade_Kind)
     id_status = models.ForeignKey(Status)
     date = models.DateField()
 
 class Chat(models.Model):
     id_trade = models.ForeignKey(Trades)
-    id_user_requester = models.ForeignKey(Users)
-    id_user_requested = models.ForeignKey(Users)
+    id_user_requester = models.ForeignKey(Users, related_name = 'chat_users_requester')
+    id_user_requested = models.ForeignKey(Users, related_name = 'chat_users_requested')
     msg_started = models.TextField()
     msg_accepted = models.TextField()
     msg_finished = models.TextField()
