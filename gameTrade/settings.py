@@ -23,9 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ls1uc_gmfw%_r2q7h^aq)g6*0-ux53cu6fmmpz_n4u&zune5)q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+if DEBUG is True:
+    ALLOWED_HOSTS = []
+else:
+    #ALLOWED_HOSTS = ['localhost']
+    ALLOWED_HOSTS = ['alanra.pythonanywhere.com']
 
 
 # Application definition
@@ -105,3 +109,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+if DEBUG is True:
+    MEDIA_URL = '/media/'
+else:
+    MEDIA_URL = 'http://alanra.pythonanywhere.com/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

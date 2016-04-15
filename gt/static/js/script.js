@@ -16,4 +16,9 @@ $(document).ready(function () {
             $('#rd-usuario-label').addClass('unselected-radio');
         }
     });
+
+    /*$(".nav a").on("click", function(){
+        $(".nav").find(".active").removeClass("active");
+        $(this).parent().addClass("active");
+    });*/
 });

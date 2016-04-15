@@ -1,0 +1,60 @@
+{% extends 'gt/base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6">
+                <h1 class="about">Sobre</h1>
+                <p>
+                    Projeto desenvolvido para a disciplina de Laboratório de
+                    Engenharia de Software do curso de Ciência da Computação
+                    da <a href="http://www.uniso.br/" target="_blank">Universidade de Sorocaba - Uniso</a>.
+                </p>
+                <p>
+                    A aplicação segue as definições do professor no
+                    modelo de serviço com prática de economia colaborativa.
+                    O segmento escolhido pelo grupo foi o de jogos de video games,
+                    possibilitando a troca de jogos de mídia física de diversas
+                    plataformas. A metodologia de Engenharia de Software utilizada foi o
+                    <a href="https://pt.wikipedia.org/wiki/Scrum" target="_blank">SCRUM</a>,
+                    uma Metodologia de Desenvolvimento Ágil.
+                </p>
+                <p>
+                    No desenvolvimento foram utilizadas as frameworks
+                    <a href="https://www.djangoproject.com/" target="_blank">Django</a> (python),
+                    no backend, e <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>,
+                    no frontend.
+                </p>
+                <p>
+                    Este Website não tem o intuito de suportar o serviço do
+                    tema proposto e nem de estabelecer prática comercial de
+                    publicidade, servindo apenas como trabalho acadêmico.
+                </p>
+                <br>
+                <h4 class="about">Desenvolvido por:</h4>
+                <p><span class="glyphicon glyphicon-minus"></span> Alan Rodrigues de Almeida</p>
+                <p><span class="glyphicon glyphicon-minus"></span> Claudemir de Souza Freitas Junior</p>
+                <p><span class="glyphicon glyphicon-minus"></span> Luís Gustavo Madoglio</p>
+                <p><span class="glyphicon glyphicon-minus"></span> João Francisco Lopes Soares</p>
+                <h4 class="about">Supervisionado por:</h4>
+                <p><span class="glyphicon glyphicon-minus"></span> Prof. Me. Fernando César Miranda</p>
+                <br>
+                <br>
+                Logo and image icons by <a href="http://www.freepik.com/" target="_blank">Freepik</a> from <a href="http://www.flaticon.com/" target="_blank">Flaticon</a>
+                are licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a>.
+                Made with <a href="http://logomakr.com" title="Logo Maker" target="_blank">Logo Maker</a>
+            </div>
+            <div class="col-sm-2"></div>
+            <div id="ad" class="col-sm-2 sidenav text-center">
+                <h3>Publicidade</h3>
+              <div class="well well-sm">
+                <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
+              </div>
+              <div class="well well-sm">
+                <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

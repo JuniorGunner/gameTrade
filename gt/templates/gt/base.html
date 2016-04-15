@@ -21,17 +21,17 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consoles
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">3ds</a></li>
-              <li><a href="#">Playstation 4</a></li>
-              <li><a href="#">Xbox One</a></li>
-            </ul>
-          </li>
-          <li><a href="#">Sobre</a></li>
+                <li class="{% if active_page == 'home' %}active{% endif %}"><a href="/">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consoles
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">3ds</a></li>
+                      <li><a href="#">Playstation 4</a></li>
+                      <li><a href="#">Xbox One</a></li>
+                    </ul>
+                </li>
+                <li class="{% if active_page == 'about' %}active{% endif %}" ><a href="{% url 'gt-about' %}">Sobre</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
@@ -47,8 +47,8 @@
               </div>
             </form>
           </li>
-          <li><a href="#"><span class="glyphicon glyphicon-user"></span> Cadastro</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li class="{% if active_page == 'register' %}active{% endif %}"><a href="{% url 'gt-register' %}"><span class="glyphicon glyphicon-user"></span> Cadastro</a></li>
+          <li class="{% if active_page == 'login' %}active{% endif %}"><a href="{% url 'gt-login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
       </div>
     </div>
