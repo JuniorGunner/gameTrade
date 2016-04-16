@@ -17,8 +17,9 @@
 /* Set gray background color and 100% height */
 .sidenav {
   padding-top: 20px;
-  background-color: #f1f1f1;
-  height: 100%;
+  padding-bottom: 20px;
+  background-color: #c9c9c9;
+  height: 100vh;
 }
 
 /* Set black background color, white text and some padding */
@@ -71,10 +72,6 @@ h1, h2, h3, h4{
     font-family: offside;
 }
 
-.sidenav{
-    height: 100vh;
-}
-
 .ad-img{
     width: 100%;
 }
@@ -85,10 +82,6 @@ h1, h2, h3, h4{
 
 #features > .well{
     background-color: white;
-}
-
-.sidenav{
-    background-color: #c9c9c9;
 }
 
 /*navbar color-scheme*/
@@ -116,6 +109,23 @@ h1, h2, h3, h4{
 
 
 /*sobre*/
-.about{
-    font-family: offside;
+.about{ font-family: offside; }
+
+/*login*/
+#btn-login{ width: 30%; margin-left: 35%;}
+.login-label{color: white;}
+.login-link{color: white;}
+.login-link:hover{text-decoration: underline; color: white;}
+#login-box a:focus{color: grey;}
+#login-box{background-color: #2B4C70}
+
+/*my_account*/
+.my-account{background-color: #467DB8;}
+.my-account > .well {background-color: white; height: 100%;}
+.avatar{margin-left: 10%; margin-right: 10%; width: 80%;}
+.my-account-content{background-color: #467DB8; height: 100vh; padding-top: 20px; padding-bottom: 20px;}
+.my-account-content > .well {background-color: white; height: 100%;}
+
+.nav-tabs{
+    background-color: white;
 }

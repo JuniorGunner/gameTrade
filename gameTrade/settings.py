@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ls1uc_gmfw%_r2q7h^aq)g6*0-ux53cu6fmmpz_n4u&zune5)q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG is True:
     ALLOWED_HOSTS = []
@@ -116,3 +116,8 @@ if DEBUG is True:
 else:
     MEDIA_URL = 'http://alanra.pythonanywhere.com/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+LOGIN_REDIRECT_URL = '/'

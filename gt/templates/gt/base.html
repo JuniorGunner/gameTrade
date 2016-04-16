@@ -21,7 +21,7 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-                <li class="{% if active_page == 'home' %}active{% endif %}"><a href="/">Home</a></li>
+                <li class="{% if request.get_full_path == '/' or page_url == 'home' %}active{% endif %}"><a href="/">Home</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consoles
                     <span class="caret"></span></a>
@@ -31,7 +31,7 @@
                       <li><a href="#">Xbox One</a></li>
                     </ul>
                 </li>
-                <li class="{% if active_page == 'about' %}active{% endif %}" ><a href="{% url 'gt-about' %}">Sobre</a></li>
+                <li class="{% if request.get_full_path == '/about/' %}active{% endif %}" ><a href="{% url 'gt-about' %}">Sobre</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
@@ -47,8 +47,13 @@
               </div>
             </form>
           </li>
-          <li class="{% if active_page == 'register' %}active{% endif %}"><a href="{% url 'gt-register' %}"><span class="glyphicon glyphicon-user"></span> Cadastro</a></li>
-          <li class="{% if active_page == 'login' %}active{% endif %}"><a href="{% url 'gt-login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {% if user.is_authenticated %}
+              <li class="{% if request.get_full_path == '/my_account/' or page_url == 'my_account' %}active{% endif %}"><a href="{% url 'gt-my-account' %}"><span class="glyphicon glyphicon-user"></span> Minha Conta</a></li>
+              <li class="{% if request.get_full_path == '/logout/' %}active{% endif %}"><a href="{% url 'gt-logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          {% else %}
+              <li class="{% if request.get_full_path == '/register/' %}active{% endif %}"><a href="{% url 'gt-register' %}"><span class="glyphicon glyphicon-user"></span> Cadastro</a></li>
+              <li class="{% if '/login/' in request.get_full_path %}active{% endif %}"><a href="{% url 'gt-login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {% endif %}
         </ul>
       </div>
     </div>

@@ -1,4 +1,63 @@
 ﻿{% extends 'gt/base.html' %}
+{% load staticfiles %}
 {% block content %}
-	<p>TODO: TELA DE MINHA CONTA </p>
+	<div class="container-fluid">
+	    <div class="row">
+	        <div class="col-sm-2 sidenav my-account">
+                <div class="well well-sm text-center">
+    	            <h3>{{ user.username }}</h3>
+                    <img class="avatar img-thumbnail img-responsive" src="{% static 'images/UserDefault.png' %}" alt="" />
+                    <a href="#">Alterar</a>
+                    <hr>
+                </div>
+	        </div>
+            <div class="col-sm-8 my-account-content">
+                <div class="well well-sm">
+                    <ul class="nav nav-tabs nav-tabs-inverse">
+                        <li class="active"><a data-toggle="tab" href="#have">Tenho</a></li>
+                        <li><a data-toggle="tab" href="#want">Quero</a></li>
+                        <li><a data-toggle="tab" href="#pending">Pendências</a></li>
+                        <li><a data-toggle="tab" href="#requests">Solicitações</a></li>
+                        <li><a data-toggle="tab" href="#history">Histórico</a></li>
+                        <li><a data-toggle="tab" href="#settings">Configurações</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="have" class="tab-pane fade in active">
+                            <h3>Tenho</h3>
+                            <p>Some content.</p>
+                        </div>
+                        <div id="want" class="tab-pane fade">
+                            <h3>Quero</h3>
+                            <p>Some content in menu 1.</p>
+                        </div>
+                        <div id="pending" class="tab-pane fade">
+                            <h3>Pendencias</h3>
+                            <p>Some content in menu 2.</p>
+                        </div>
+                        <div id="requests" class="tab-pane fade">
+                            <h3>Solicitacoes</h3>
+                            <p>Some content in menu 2.</p>
+                        </div>
+                        <div id="history" class="tab-pane fade">
+                            <h3>Historico</h3>
+                            <p>Some content in menu 2.</p>
+                        </div>
+                        <div id="settings" class="tab-pane fade">
+                            <h3>configuracoes</h3>
+                            <p>Some content in menu 2.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ad" class="col-sm-2 sidenav">
+                <h3 class="text-center">Publicidade</h3>
+                <div class="well well-sm">
+                    <img class="ad-img" src="{% static 'images/PressStart.gif' %}" alt="" />
+                </div>
+                <div class="well well-sm">
+                    <img class="ad-img" src="{% static 'images/Sonic.gif' %}" alt="" />
+                </div>
+            </div>
+	    </div>
+	</div>
 {% endblock content %}

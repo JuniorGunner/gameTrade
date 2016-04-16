@@ -1,10 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+def upload_to_user(instance, filename):
+    return 'images/%s/%s' % (instance.user.username, filename)
+
+def upload_to_game(instance, filename):
+    return 'images/%s/%s' % (instance.games.id, filename)
+
+def upload_to_console(instance, filename):
+    return 'images/%s/%s' % (instance.consoles.id, filename)
 
 class Users(models.Model):
-    name = models.CharField(max_length = 100)
-    email = models.EmailField(max_length = 254)
-    password = models.IntegerField()
-    picture = models.ImageField(upload_to = '', default = '') #REVISAR
+    picture = models.ImageField(upload_to = upload_to_user, default = '') #REVISAR
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+
 
 class Address(models.Model):
     id_user = models.ForeignKey(Users)
@@ -25,19 +34,18 @@ class Consoles(models.Model):
     id_dev = models.ForeignKey(Developers)
     name = models.CharField(max_length = 100)
     year = models.IntegerField()
-    picture = models.ImageField(upload_to = '', default = '') #REVISAR
+    picture = models.ImageField(upload_to = upload_to_console, default = '') #REVISAR
     description = models.CharField(max_length = 300)
 
 class Genres(models.Model):
     description = models.CharField(max_length = 100)
 
 class Games(models.Model):
-    id_console = models.ForeignKey(Consoles)
     id_dev = models.ForeignKey(Developers)
     id_genre = models.ForeignKey(Genres)
     title = models.CharField(max_length = 100)
     year = models.IntegerField()
-    picture = models.ImageField(upload_to = '', default = '') #REVISAR
+    picture = models.ImageField(upload_to = upload_to_game, default = '') #REVISAR
     description = models.CharField(max_length = 300)
 
 class Game_Console(models.Model):
