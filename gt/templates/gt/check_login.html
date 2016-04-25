@@ -1,5 +1,10 @@
 {% if user.is_authenticated %}
-    {% include "gt/home.html" with page_url="home" %}
+    <html>
+        <head>
+            <meta http-equiv="refresh" content="0; url=/" />
+        </head>
+        <body></body>
+    </html>
 {% else %}
     {% include "gt/login.html" %}
 {% endif %}

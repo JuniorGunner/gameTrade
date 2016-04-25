@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 def upload_to_user(instance, filename):
-    return 'images/%s/%s' % (instance.user.username, filename)
+    return 'images/users/%s/%s' % (instance.user.username, filename)
 
 def upload_to_game(instance, filename):
-    return 'images/%s/%s' % (instance.games.id, filename)
+    return 'images/games/%s/%s' % (instance.title, filename)
 
 def upload_to_console(instance, filename):
-    return 'images/%s/%s' % (instance.consoles.id, filename)
+    return 'images/consoles/%s/%s' % (instance.name, filename)
 
 class Users(models.Model):
     picture = models.ImageField(upload_to = upload_to_user, default = '') #REVISAR

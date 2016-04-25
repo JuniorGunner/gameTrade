@@ -6,7 +6,7 @@
 	        <div class="col-sm-2 sidenav my-account">
                 <div class="well well-sm text-center">
     	            <h3>{{ user.username }}</h3>
-                    <img class="avatar img-thumbnail img-responsive" src="{% static 'images/UserDefault.png' %}" alt="" />
+                    <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ users.picture }}" alt="" />
                     <a href="#">Alterar</a>
                     <hr>
                 </div>

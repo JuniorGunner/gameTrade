@@ -108,7 +108,7 @@ h1, h2, h3, h4{
 .navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #FFFFFF}
 
 
-/*sobre*/
+/*about*/
 .about{ font-family: offside; }
 
 /*login*/
@@ -129,3 +129,20 @@ h1, h2, h3, h4{
 .nav-tabs{
     background-color: white;
 }
+
+/*search_page*/
+#msg-search{padding-bottom: 2%; margin-top: 2%;}
+#paginator{margin-top: 2%;}
+.well-item:hover{background-color: #e9e9e9;}
+.search-link{color: #2B4C70; font-size: 1.8em; font-family: Helvetica;}
+.search-link:hover{text-decoration: none; color: #467DB8;}
+.well-items, .well-item{background-color: white;}
+.well-item{
+    border: none;
+    margin-bottom: 0;
+    -webkit-box-shadow:inset 0 0px 0px white;
+    box-shadow:inset 0 0px 0px white
+}
+
+/*games_by_console*/
+#console-well{margin-top: 2%}

@@ -1,24 +1,36 @@
 $(document).ready(function () {
-    $('#rd-usuario').click(function () {
-        if(!$('#rd-usuario-label').hasClass('selected-radio')){
-            $('#rd-usuario-label').removeClass('unselected-radio');
-            $('#rd-usuario-label').addClass('selected-radio');
-            $('#rd-jogo-label').removeClass('selected-radio');
-            $('#rd-jogo-label').addClass('unselected-radio');
+    $('#rd-user').click(function () {
+        if(!$('#rd-user-label').hasClass('selected-radio')){
+            $('#rd-user-label').removeClass('unselected-radio');
+            $('#rd-user-label').addClass('selected-radio');
+            $('#rd-game-label').removeClass('selected-radio');
+            $('#rd-game-label').addClass('unselected-radio');
         }
     });
 
-    $('#rd-jogo').click(function () {
-        if(!$('#rd-jogo-label').hasClass('selected-radio')){
-            $('#rd-jogo-label').removeClass('unselected-radio');
-            $('#rd-jogo-label').addClass('selected-radio');
-            $('#rd-usuario-label').removeClass('selected-radio');
-            $('#rd-usuario-label').addClass('unselected-radio');
+    $('#rd-game').click(function () {
+        if(!$('#rd-game-label').hasClass('selected-radio')){
+            $('#rd-game-label').removeClass('unselected-radio');
+            $('#rd-game-label').addClass('selected-radio');
+            $('#rd-user-label').removeClass('selected-radio');
+            $('#rd-user-label').addClass('unselected-radio');
         }
     });
+});
 
-    /*$(".nav a").on("click", function(){
-        $(".nav").find(".active").removeClass("active");
-        $(this).parent().addClass("active");
-    });*/
+$(window).load(function(){
+    $('.height-sidenav').height($('.container-fluid > .row').height());
+
+    var height = [];
+
+    $('.item-row').each(function(index){
+        height[index] = $(this).height()/2;;
+    });
+
+    var eleHeight = [];
+
+    $('.centered').each(function(index){
+        eleHeight[index] = $(this).height()/2;
+        $(this).css('margin-top',(height[index]-eleHeight[index]));
+    });
 });

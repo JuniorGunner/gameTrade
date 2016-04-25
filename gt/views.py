@@ -1,55 +1,103 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from gt.models import *
 
 # Create your views here.
 def home(request):
     return render(request, 'gt/home.html', {})
 
-"""def login(request):
-    if request.method == 'POST':
-
-        username = request.POST['user']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                active_page = 'home'
-                return render(request, reverse('gt-home'),{'active_page': active_page})
-            else:
-                active_page = 'login'
-                msg = 'Conta desativada'
-                return render(request, 'gt/login.html',{'active_page': active_page, 'msg': msg})
-        else:
-            active_page = 'login'
-            msg = 'Usuário ou Senha Inválido'
-            return render(request, 'gt/login.html',{'active_page': active_page, 'msg': msg})
-    else:
-        active_page = 'login'
-        return render(request, 'gt/login.html',{'active_page': active_page})"""
-
 def register(request):
     if request.user.is_authenticated():
-        return render(request, 'gt/my_account.html', {'page_url':'my_account'})
+        return redirect('gt.views.my_account')
     else:
         return render(request, 'gt/user_register.html', {})
 
 @login_required
 def my_account(request):
-	return render(request, 'gt/my_account.html', {})
+    users = Users.objects.get(user = request.user)
+    return render(request, 'gt/my_account.html', {'users': users})
 
 def game(request):
 	return render(request, 'gt/game.html', {})
 
-def games_by_console(request):
-	return render(request, 'gt/games_by_console.html', {})
+def games_by_console(request, console_id):
+    console = get_object_or_404(Consoles, pk = console_id)
+    games = Game_Console.objects.filter(id_console = console).order_by('id_game__title')
+    paginator = Paginator(games, 10)
+    page = request.GET.get('page')
+    try:
+        games = paginator.page(page)
+    except PageNotAnInteger:
+        games = paginator.page(1)
+        page = 1
+    except EmptyPage:
+        games = paginator.page(paginator.num_pages)
+        page = paginator.num_pages
+    page = int(page)
+    init = 1
+    if paginator.num_pages > 4:
+        final = 6
+    else:
+        final = paginator.num_pages + 1
+    if page > 3 and paginator.num_pages > 5:
+        if page <= paginator.num_pages - 2:
+            init = page - 2
+            final = page + 3
+        else:
+            final = paginator.num_pages + 1
+            init = final - 5
+    return render(request, 'gt/games_by_console.html', {'console': console, 'games': games, 'n': range(init, final), 'page': page})
 
 def user_account(request):
 	return render(request, 'gt/user_account.html', {})
 
 def search(request):
-	return render(request, 'gt/search.html', {})
+        keyword = request.GET['search-value']
+        result = 0
+        if len(keyword) == 0:
+            keyword = -1
+            message = u'Utilize a caixa de pesquisa para buscar por jogo ou usuário'
+            return render(request, 'gt/search.html', {'keyword': keyword, 'message': message})
+        elif request.GET['search'] == 'game':
+            result = Games.objects.filter(title__icontains = keyword).order_by('title')
+        else:
+            result = Users.objects.filter(user__username__icontains = keyword, user__is_superuser = 0).order_by('user__username')
+        result_length = len(result)
+        if result_length == 0:
+            message = u'Nenhum registro encontrado'
+            return render(request, 'gt/search.html', {'keyword': keyword, 'message': message})
+        else:
+            message = u'%d registro(s) encontrado(s). Palavra-chave: %s' % (result_length, keyword)
+            paginator = Paginator(result, 10)
+            page = request.GET.get('page')
+            try:
+                result = paginator.page(page)
+            except PageNotAnInteger:
+                result = paginator.page(1)
+                page = 1
+            except EmptyPage:
+                result = paginator.page(paginator.num_pages)
+                page = paginator.num_pages
+            page = int(page)
+            init = 1
+            if paginator.num_pages > 4:
+                final = 6
+            else:
+                final = paginator.num_pages + 1
+            if page > 3 and paginator.num_pages > 5:
+                if page <= paginator.num_pages - 2:
+                    init = page - 2
+                    final = page + 3
+                else:
+                    final = paginator.num_pages + 1
+                    init = final - 5
+            return render(request, 'gt/search.html', {'keyword': keyword, 'message': message, 'result': result, 'n': range(init, final), 'search': request.GET['search'], 'page': page})
+
 
 def about(request):
     return render(request, 'gt/about.html', {})

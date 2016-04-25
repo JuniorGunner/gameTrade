@@ -21,34 +21,34 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-                <li class="{% if request.get_full_path == '/' or page_url == 'home' %}active{% endif %}"><a href="/">Home</a></li>
-                <li class="dropdown">
+                <li class="{% if request.get_full_path == '/' %}active{% endif %}"><a href="/">Home</a></li>
+                <li class="dropdown {% if '/games_by_console' in request.get_full_path %}active{% endif %}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consoles
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="#">3ds</a></li>
-                      <li><a href="#">Playstation 4</a></li>
-                      <li><a href="#">Xbox One</a></li>
+                        {% for console in consoles %}
+                            <li><a href="/games_by_console/{{ console.id }}">{{console.name}}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li class="{% if request.get_full_path == '/about/' %}active{% endif %}" ><a href="{% url 'gt-about' %}">Sobre</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <form class="navbar-form">
+            <form action="{% url 'gt-search' %}" class="navbar-form">
               <div class="form-group">
                 <div class="radio navbar-text">
-                      <input type="radio" id="rd-usuario" name="pesquisa" value="usuario" checked><span id="rd-usuario-label" class="selected-radio "> Usuário</span>
+                      <input type="radio" id="rd-user" name="search" value="user"><span id="rd-user-label" class="unselected-radio"> Usuário</span>
                 </div>
                 <div class="radio navbar-text">
-                      <input type="radio" id="rd-jogo" name="pesquisa" value="jogo"><span id="rd-jogo-label" class="unselected-radio"> Jogo</span>
+                      <input type="radio" id="rd-game" name="search" value="game" checked><span id="rd-game-label" class="selected-radio"> Jogo</span>
                 </div>
-                <input type="text" class="form-control" placeholder="Pesquisa">
+                <input name='search-value' type="text" class="form-control" placeholder="Pesquisa">
               </div>
             </form>
           </li>
           {% if user.is_authenticated %}
-              <li class="{% if request.get_full_path == '/my_account/' or page_url == 'my_account' %}active{% endif %}"><a href="{% url 'gt-my-account' %}"><span class="glyphicon glyphicon-user"></span> Minha Conta</a></li>
+              <li class="{% if request.get_full_path == '/my_account/' %}active{% endif %}"><a href="{% url 'gt-my-account' %}"><span class="glyphicon glyphicon-user"></span> Minha Conta</a></li>
               <li class="{% if request.get_full_path == '/logout/' %}active{% endif %}"><a href="{% url 'gt-logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
           {% else %}
               <li class="{% if request.get_full_path == '/register/' %}active{% endif %}"><a href="{% url 'gt-register' %}"><span class="glyphicon glyphicon-user"></span> Cadastro</a></li>

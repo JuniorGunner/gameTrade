@@ -1,4 +1,80 @@
 ﻿{% extends 'gt/base.html' %}
+{% load staticfiles %}
 {% block content %}
-	<p>TODO: TELA DE JOGOS POR CONSOLE </p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 sidenav height-sidenav my-account">
+            <div class="well well-sm">
+                <h3 class="text-center">{{ console.name }}</h3>
+                <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ console.picture }}" alt="" />
+                <hr>
+                <p class="lead">
+                    Desenvolvedor: <br> {{ console.id_dev.description }}
+                </p>
+                <p class="lead">
+                    Ano de Lançamento: {{ console.year }}
+                </p>
+                <p class="lead">
+                    Descrição: <br> {{ console.description }}
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-sm-offset-1">
+            <div id="console-well" class="well well-sm well-items">
+                {% for item in games %}
+                    <div class="well well-sm well-item">
+                        <div class="row item-row">
+                            <div class="col-sm-2">
+                                <a href="#"><img class="img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ item.id_game.picture }}" alt="" /></a>
+                            </div>
+                            <div class="col-sm-10 centered">
+                                <span><a class="search-link" href="#">{{ item.id_game.title }}</a></span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if games.paginator.num_pages > 1 %}
+                <div class="row text-center" id="paginator">
+                    <div class="col-sm-4">
+                        <ul class="pager">
+                            <li><a href="?page=1">Primeira</a></li>
+                            {% if games.has_previous %}
+                                <li><a href="?page={{ games.previous_page_number }}">Anterior</a></li>
+                            {% else %}
+                                <li class="disabled"><a>Anterior</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <ul class="pagination">
+                            {% for number in n %}
+                                <li class="{% if page == number %} active {% endif %}"><a href="?page={{ number }}">{{ number }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <ul class="pager">
+                            {% if games.has_next %}
+                                <li><a href="?page={{ games.next_page_number }}">Próxima</a></li>
+                            {% else %}
+                                <li class="disabled"><a>Próxima</a></li>
+                            {% endif %}
+                            <li><a href="?page={{ games.paginator.num_pages }}">Última</a></li>
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div id="ad" class="col-sm-2 col-sm-offset-1 sidenav height-sidenav text-center">
+            <h3>Publicidade</h3>
+          <div class="well well-sm">
+            <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
+          </div>
+          <div class="well well-sm">
+            <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
+          </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

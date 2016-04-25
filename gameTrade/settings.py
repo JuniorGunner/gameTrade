@@ -68,10 +68,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.core.context_processors.media",
             ],
         },
     },
 ]
+
+TEMPLATES[0]['OPTIONS']['context_processors'].append("gt.context_processors.consoles_processor")
 
 WSGI_APPLICATION = 'gameTrade.wsgi.application'
 
