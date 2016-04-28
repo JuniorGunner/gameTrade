@@ -14,6 +14,12 @@ class Users(models.Model):
     picture = models.ImageField(upload_to = upload_to_user, default = '') #REVISAR
     user = models.OneToOneField(User, on_delete = models.CASCADE)
 
+class Kind(models.Model):
+    group = models.CharField(max_length = 100)
+    description = models.CharField(max_length = 200)
+
+    def __str__(self):
+        return 'Kind: {} - {}'.format(self.group, self.description)
 
 class Address(models.Model):
     id_user = models.ForeignKey(Users)
@@ -28,7 +34,10 @@ class Address(models.Model):
 
 class Developers(models.Model):
     description = models.CharField(max_length = 50)
-    kind = models.IntegerField() #1 - Consoles, 2 - Games, 3 - Both
+    dev_kind = models.ForeignKey(Kind)
+
+    def __str__(self) :
+        return 'Dev.: {}'.format(self.description)
 
 class Consoles(models.Model):
     id_dev = models.ForeignKey(Developers)
@@ -39,6 +48,9 @@ class Consoles(models.Model):
 
 class Genres(models.Model):
     description = models.CharField(max_length = 100)
+
+    def __str__(self):
+        return 'Genre: {}'.format(self.description)
 
 class Games(models.Model):
     id_dev = models.ForeignKey(Developers)
@@ -55,18 +67,12 @@ class Game_Console(models.Model):
 class User_Game(models.Model):
     id_user = models.ForeignKey(Users)
     id_game = models.ForeignKey(Games)
-    rating = models.IntegerField() #1 - Want, 2 - Have
+    rating = models.ForeignKey(Kind) #1 - Want, 2 - Have
 
 class Game_Rating(models.Model):
     id_user = models.ForeignKey(Users)
     id_game = models.ForeignKey(Games)
     value = models.DecimalField(max_digits = 2, decimal_places = 2)
-
-class Trade_Kind(models.Model):
-    description = models.CharField(max_length = 100)
-
-class Status(models.Model):
-    description = models.CharField(max_length = 100)
 
 class Trades(models.Model):
     id_user_requester = models.ForeignKey(Users, related_name = 'trades_users_requester')
@@ -75,8 +81,8 @@ class Trades(models.Model):
     user_requested_status = models.BooleanField()
     id_game_requester = models.ForeignKey(Games, related_name = 'trades_games_requester')
     id_game_requested = models.ForeignKey(Games, related_name = 'trades_games_requested')
-    id_trade_kind = models.ForeignKey(Trade_Kind)
-    id_status = models.ForeignKey(Status)
+    trade_kind = models.ForeignKey(Kind, related_name = 'trades_kind')
+    status_kind = models.ForeignKey(Kind, related_name = 'trades_status')
     date = models.DateField()
 
 class Chat(models.Model):
