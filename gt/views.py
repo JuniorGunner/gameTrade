@@ -22,8 +22,11 @@ def my_account(request):
     users = Users.objects.get(user = request.user)
     return render(request, 'gt/my_account.html', {'users': users})
 
-def game(request):
-	return render(request, 'gt/game.html', {})
+def game(request, game_id):
+    game = get_object_or_404(Games, pk = game_id)
+    users_have = User_Game.objects.filter(id_game = game, rating = 1)
+    users_want = User_Game.objects.filter(id_game = game, rating = 2)
+    return render(request, 'gt/game.html', {'game': game, 'users_have': users_have, 'users_want': users_want})
 
 def games_by_console(request, console_id):
     console = get_object_or_404(Consoles, pk = console_id)

@@ -1,4 +1,101 @@
-﻿{% extends 'gt/base.html' %}
+{% extends 'gt/base.html' %}
+{% load staticfiles %}
 {% block content %}
-	<p>TODO: TELA DO JOGO </p>
+<div class="col-sm-2 sidenav height-sidenav console">
+    <div class="well well-sm">
+        <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ game.picture }}" alt="" />
+        <hr>
+        <div class="star-rating text-center">
+            <span class="glyphicon glyphicon-star-empty" data-rating="1"></span>
+            <span class="glyphicon glyphicon-star-empty" data-rating="2"></span>
+            <span class="glyphicon glyphicon-star-empty" data-rating="3"></span>
+            <span class="glyphicon glyphicon-star-empty" data-rating="4"></span>
+            <span class="glyphicon glyphicon-star-empty" data-rating="5"></span>
+            <input type="hidden" name="whatever" class="rating-value" value="3">
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-sm-6">
+                <button type="button" class="btn btn-info btn-lg">Tenho</button>
+            </div>
+            <div class="col-sm-6">
+                <button type="button" class="btn btn-info btn-lg">Quero</button>
+            </div>
+        </div>
+        <br>
+        <p class="lead">
+            Desenvolvedor: <br> {{ game.id_dev.description }}
+        </p>
+        <p class="lead">
+            Ano de Lançamento: {{ game.year }}
+        </p>
+        <p class="lead text-justify">
+            Gênero: {{ game.id_genre.description }}
+        </p>
+    </div>
+</div>
+<div class="col-sm-8 game-content">
+    <div class="well well-sm">
+        <h2 class="">{{ game.title }}</h2>
+        <p class="lead">
+            {{ game.description }}
+        </p>
+        <ul class="nav nav-tabs nav-tabs-inverse">
+            <li class="active"><a data-toggle="tab" href="#have">Tenho</a></li>
+            <li><a data-toggle="tab" href="#want">Quero</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="have" class="tab-pane fade in active">
+                {% if users_have|length == 0 %}
+                <p class="lead text-info">
+                    Ninguém possui este jogo
+                </p>
+                {% else %}
+                <div class="row">
+                    <div class="col-sm-8">
+                        <table class="table table-hover table-responsive table-justified">
+                            <thead>
+                                <tr class="text-info">
+                                    <th colspan="2">Usuário</th>
+                                    <th>Console</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in users_have %}
+                                <tr>
+                                    <td class="img-user-game">
+                                        <a href="/user/{{ item.id_user.id }}"><img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_user.picture }}" alt="" /></a>
+                                    </td>
+                                    <td>
+                                        <span><a class="search-link" href="/user/{{ item.id_user.id }}">{{ item.id_user.user.username }}<br>
+                                            Sorocaba - SP
+                                        </a></span>
+                                    </td>
+                                    <td>
+                                        <span><a class="search-link" href="/games_by_console/{{ item.id_user.id }}">{{ item.id_user.user.username }}<br></a></span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div id="want" class="tab-pane fade">
+                <h3>Quero</h3>
+                <p>Some content in menu 1.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ad" class="col-sm-2 sidenav height-sidenav text-center">
+    <h3>Publicidade</h3>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
+    </div>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
+    </div>
+</div>
 {% endblock content %}

@@ -146,3 +146,18 @@ h1, h2, h3, h4{
 
 /*games_by_console*/
 #console-well{margin-top: 2%}
+.console{background-color: #467DB8;}
+.console > .well {background-color: white;}
+
+/* game */
+.star-rating {
+  line-height:32px;
+  font-size:1.5em;
+  cursor: pointer;
+  color: #ffd600;
+}
+
+.game-content{background-color: #467DB8; height: 100vh; padding-top: 20px; padding-bottom: 20px;}
+.game-content > .well {background-color: white; height: 100%;}
+.img-user-game{width: 15%;}
+.btn-lg{width: 100%;}

@@ -1,78 +1,74 @@
 {% extends 'gt/base.html' %}
 {% load staticfiles %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-offset-2 col-sm-6">
-                <div class="text-center" id="msg-search">
-                    <span class=" lead {% if keyword == -1 %} text-warning {% elif not n %} text-danger {% else %} text-success {% endif %}">{{ message }}</span>
+<div class="col-sm-offset-2 col-sm-6 height-content">
+    <div class="text-center" id="msg-search">
+        <span class=" lead {% if keyword == -1 %} text-warning {% elif not n %} text-danger {% else %} text-success {% endif %}">{{ message }}</span>
+    </div>
+    {% if not keyword == -1 and n %}
+    <div class="well well-sm well-items">
+        {% for item in result %}
+        <div class="well well-sm well-item">
+            <div class="row item-row">
+                {% if search == 'game' %}
+                <div class="col-sm-2">
+                    <a href="/game/{{ item.id }}"><img class="img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ item.picture }}" alt="" /></a>
                 </div>
-                {% if not keyword == -1 and n %}
-                    <div class="well well-sm well-items">
-                        {% for item in result %}
-                            <div class="well well-sm well-item">
-                                <div class="row item-row">
-                                {% if search == 'game' %}
-                                    <div class="col-sm-2">
-                                        <a href="#"><img class="img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ item.picture }}" alt="" /></a>
-                                    </div>
-                                    <div class="col-sm-10 centered">
-                                        <span><a class="search-link" href="#">{{ item.title }}</a></span>
-                                    </div>
-                                {% else %}
-                                    <div class="col-sm-2">
-                                        <a href="#"><img class="img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ item.picture }}" alt="" /></a>
-                                    </div>
-                                    <div class="col-sm-10 centered">
-                                        <span><a class="search-link" href="#">{{ item.user.username }}</a></span>
-                                    </div>
-                                {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {% if result.paginator.num_pages > 1 %}
-                        <div class="row text-center" id="paginator">
-                            <div class="col-sm-4">
-                                <ul class="pager">
-                                    <li><a href="?page=1&search={{ search }}&search-value={{ keyword }}">Primeira</a></li>
-                                    {% if result.has_previous %}
-                                        <li><a href="?page={{ result.previous_page_number }}&search={{ search }}&search-value={{ keyword }}">Anterior</a></li>
-                                    {% else %}
-                                        <li class="disabled"><a>Anterior</a></li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="pagination">
-                                    {% for number in n %}
-                                        <li class="{% if page == number %} active {% endif %}"><a href="?page={{ number }}&search={{ search }}&search-value={{ keyword }}">{{ number }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="pager">
-                                    {% if result.has_next %}
-                                        <li><a href="?page={{ result.next_page_number }}&search={{ search }}&search-value={{ keyword }}">Próxima</a></li>
-                                    {% else %}
-                                        <li class="disabled"><a>Próxima</a></li>
-                                    {% endif %}
-                                    <li><a href="?page={{ result.paginator.num_pages }}&search={{ search }}&search-value={{ keyword }}">Última</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    {% endif %}
+                <div class="col-sm-10 centered">
+                    <span><a class="search-link" href="/game/{{ item.id }}">{{ item.title }}</a></span>
+                </div>
+                {% else %}
+                <div class="col-sm-2">
+                    <a href="#"><img class="img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ item.picture }}" alt="" /></a>
+                </div>
+                <div class="col-sm-10 centered">
+                    <span><a class="search-link" href="#">{{ item.user.username }}</a></span>
+                </div>
                 {% endif %}
             </div>
-            <div id="ad" class="col-sm-2 col-sm-offset-2 sidenav height-sidenav text-center">
-                <h3>Publicidade</h3>
-              <div class="well well-sm">
-                <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
-              </div>
-              <div class="well well-sm">
-                <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
-              </div>
-            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if result.paginator.num_pages > 1 %}
+    <div class="row text-center" id="paginator">
+        <div class="col-sm-4">
+            <ul class="pager">
+                <li><a href="?page=1&search={{ search }}&search-value={{ keyword }}">Primeira</a></li>
+                {% if result.has_previous %}
+                <li><a href="?page={{ result.previous_page_number }}&search={{ search }}&search-value={{ keyword }}">Anterior</a></li>
+                {% else %}
+                <li class="disabled"><a>Anterior</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <ul class="pagination">
+                {% for number in n %}
+                <li class="{% if page == number %} active {% endif %}"><a href="?page={{ number }}&search={{ search }}&search-value={{ keyword }}">{{ number }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <ul class="pager">
+                {% if result.has_next %}
+                <li><a href="?page={{ result.next_page_number }}&search={{ search }}&search-value={{ keyword }}">Próxima</a></li>
+                {% else %}
+                <li class="disabled"><a>Próxima</a></li>
+                {% endif %}
+                <li><a href="?page={{ result.paginator.num_pages }}&search={{ search }}&search-value={{ keyword }}">Última</a></li>
+            </ul>
         </div>
     </div>
+    {% endif %}
+    {% endif %}
+</div>
+<div id="ad" class="col-sm-2 col-sm-offset-2 sidenav height-sidenav text-center">
+    <h3>Publicidade</h3>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
+    </div>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
+    </div>
+</div>
 {% endblock content %}

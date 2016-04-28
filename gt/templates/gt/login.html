@@ -2,53 +2,48 @@
 {% extends 'gt/base.html' %}
 {% load staticfiles %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="row">
-            <div id="features" class="col-sm-2 sidenav">
-                <h3 class="text-center">Features</h3>
-                <div class="well well-sm text-left">
-                    <p><span class="glyphicon glyphicon-chevron-right"></span> O jogo que você já jogou ou enjoou pode proporcionar muita diversão à outra pessoa</p>
-                    <p><span class="glyphicon glyphicon-chevron-right"></span> Receba outro jogo em troca e economize o dinheiro que seria gasto na compra de jogos novos que estão cada vez mais caros</p>
-                    <p><span class="glyphicon glyphicon-chevron-right"></span> Caso você queira se desfazer de um jogo, você pode doá-lo para um usuário de sua escolha</p>
-                    <p><span class="glyphicon glyphicon-chevron-right"></span> Avalie usuários em resposta a uma troca realizada</p>
-                    <p><span class="glyphicon glyphicon-chevron-right"></span> Avalie jogos que já jogou com uma nota</p>
-                    <p><span class="glyphicon glyphicon-chevron-right"></span> Registre os jogos que possui e os que deseja</p>
-                    <p><span class="glyphicon glyphicon-chevron-right"></span> Comunique-se com outros usuários em suas páginas para negociar uma troca</p>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <h2 class="text-center">Login</h2>
-                {% if form.errors %}
-                    {{ form.non_field_errors }}
-                {% endif %}
-                <div id="login-box" class="well well-lg col-sm-4 col-sm-offset-4">
-                    <form id="login" class="form-horizontal" role="form" action="." method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label class="control-label login-label" for="id_username">Usuário</label>
-                            <input type="text" class="form-control" id="id_username" name="username" placeholder="Usuário">
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label login-label" for="id_password">Senha</label>
-                            <input type="password" class="form-control" id="id_password" name="password" placeholder="Senha">
-                            <a class="login-link" href="#">Esqueci minha senha</a>
-                        </div>
-                        <div class="form-group">
-                            <button id="btn-login" type="submit" class="btn btn-default">Entrar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div id="ad" class="col-sm-2 sidenav">
-                <h3 class="text-center">Publicidade</h3>
-              <div class="well well-sm">
-                <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
-              </div>
-              <div class="well well-sm">
-                <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
+<div id="features" class="col-sm-2 sidenav">
+    <h3 class="text-center">Features</h3>
+    <div class="well well-sm text-left">
+        <p><span class="glyphicon glyphicon-chevron-right"></span> O jogo que você já jogou ou enjoou pode proporcionar muita diversão à outra pessoa</p>
+        <p><span class="glyphicon glyphicon-chevron-right"></span> Receba outro jogo em troca e economize o dinheiro que seria gasto na compra de jogos novos que estão cada vez mais caros</p>
+        <p><span class="glyphicon glyphicon-chevron-right"></span> Caso você queira se desfazer de um jogo, você pode doá-lo para um usuário de sua escolha</p>
+        <p><span class="glyphicon glyphicon-chevron-right"></span> Avalie usuários em resposta a uma troca realizada</p>
+        <p><span class="glyphicon glyphicon-chevron-right"></span> Avalie jogos que já jogou com uma nota</p>
+        <p><span class="glyphicon glyphicon-chevron-right"></span> Registre os jogos que possui e os que deseja</p>
+        <p><span class="glyphicon glyphicon-chevron-right"></span> Comunique-se com outros usuários em suas páginas para negociar uma troca</p>
     </div>
+</div>
+<div class="col-sm-8">
+    <h2 class="text-center">Login</h2>
+    {% if form.errors %}
+    {{ form.non_field_errors }}
+    {% endif %}
+    <div id="login-box" class="well well-lg col-sm-4 col-sm-offset-4">
+        <form id="login" class="form-horizontal" role="form" action="." method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label login-label" for="id_username">Usuário</label>
+                <input type="text" class="form-control" id="id_username" name="username" placeholder="Usuário">
+            </div>
+            <div class="form-group">
+                <label class="control-label login-label" for="id_password">Senha</label>
+                <input type="password" class="form-control" id="id_password" name="password" placeholder="Senha">
+                <a class="login-link" href="#">Esqueci minha senha</a>
+            </div>
+            <div class="form-group">
+                <button id="btn-login" type="submit" class="btn btn-default">Entrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="ad" class="col-sm-2 sidenav">
+    <h3 class="text-center">Publicidade</h3>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
+    </div>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
+    </div>
+</div>
 {% endblock content %}
