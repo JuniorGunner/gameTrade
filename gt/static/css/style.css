@@ -161,3 +161,5 @@ h1, h2, h3, h4{
 .game-content > .well {background-color: white; height: 100%;}
 .img-user-game{width: 15%;}
 .btn-lg{width: 100%;}
+.console-link{color: #2B4C70; font-size: 1.5em; font-family: Helvetica;}
+.console-link:hover{text-decoration: none; color: #467DB8;}

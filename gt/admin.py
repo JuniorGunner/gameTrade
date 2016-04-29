@@ -14,7 +14,7 @@ admin.site.register(Developers, DevAdmin)
 
 class GamesAdmin(admin.ModelAdmin):
     model = Games
-    list_display = ['title', 'year', 'picture', 'description']
+    list_display = ['title', 'year', 'description']
 admin.site.register(Games, GamesAdmin)
 
 class ConsolesAdmin(admin.ModelAdmin):
@@ -26,3 +26,8 @@ class GenresAdmin(admin.ModelAdmin):
     model = Genres
     list_display = ['description']
 admin.site.register(Genres, GenresAdmin)
+
+admin.site.register(Users)
+admin.site.register(Address)
+admin.site.register(Game_Console)
+admin.site.register(User_Game)

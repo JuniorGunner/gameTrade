@@ -1,3 +1,30 @@
+var ct = function () {
+    var height = [];
+
+    $('.item-row').each(function(index){
+        height[index] = $(this).height()/2;;
+    });
+
+    var eleHeight = [];
+    i = 0;
+    c = 0;
+
+    $('.centered-2').each(function(index){
+        eleHeight[index] = $(this).height()/2;
+        $(this).css('margin-top',(height[i]-eleHeight[index]));
+        c++;
+        if(c == 2){
+            c = 0;
+            i++;
+        }
+    });
+
+    $('.centered').each(function(index){
+        eleHeight[index] = $(this).height()/2;
+        $(this).css('margin-top',(height[index]-eleHeight[index]));
+    });
+};
+
 $(document).ready(function () {
     $('#rd-user').click(function () {
         if(!$('#rd-user-label').hasClass('selected-radio')){
@@ -35,22 +62,15 @@ $(document).ready(function () {
     });
 
     SetRatingStar();
+
+    $('#want').load(ct);
 });
+
+
 
 $(window).load(function(){
     if($('.height-content').height() > $('.height-sidenav').height())
         $('.height-sidenav').height($('.height-content').height());
 
-    var height = [];
-
-    $('.item-row').each(function(index){
-        height[index] = $(this).height()/2;;
-    });
-
-    var eleHeight = [];
-
-    $('.centered').each(function(index){
-        eleHeight[index] = $(this).height()/2;
-        $(this).css('margin-top',(height[index]-eleHeight[index]));
-    });
+    ct();
 });

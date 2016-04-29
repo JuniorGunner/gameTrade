@@ -24,25 +24,39 @@
         </div>
         <br>
         <p class="lead">
-            Desenvolvedor: <br> {{ game.id_dev.description }}
+            Plataforma: <br> {{ game.id_console.name }}
         </p>
         <p class="lead">
-            Ano de Lançamento: {{ game.year }}
+            Desenvolvedor: <br> {{ game.id_game.id_dev.description }}
         </p>
-        <p class="lead text-justify">
-            Gênero: {{ game.id_genre.description }}
+        <p class="lead">
+            Ano de Lançamento: {{ game.id_game.year }}
         </p>
+        <p class="lead">
+            Gênero: {{ game.id_game.id_genre.description }}
+        </p>
+        {% if other_consoles|length > 1 %}
+            <br>
+            <p class="lead">
+                Outras Plataformas:
+            </p>
+            {% for console in other_consoles %}
+                {% if not console == game %}
+                    <a class="console-link" href="/game/{{ console.id_console.id }}/{{ console.id_game.id }}">{{ console.id_console.name }}</a><br>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
 <div class="col-sm-8 game-content">
     <div class="well well-sm">
-        <h2 class="">{{ game.title }}</h2>
+        <h2 class="">{{ game.id_game.title }}</h2>
         <p class="lead">
-            {{ game.description }}
+            {{ game.id_game.description }}
         </p>
         <ul class="nav nav-tabs nav-tabs-inverse">
             <li class="active"><a data-toggle="tab" href="#have">Tenho</a></li>
-            <li><a data-toggle="tab" href="#want">Quero</a></li>
+            <li id="want-tab"><a data-toggle="tab" href="#want">Quero</a></li>
         </ul>
         <div class="tab-content">
             <div id="have" class="tab-pane fade in active">
@@ -57,7 +71,6 @@
                             <thead>
                                 <tr class="text-info">
                                     <th colspan="2">Usuário</th>
-                                    <th>Console</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,13 +79,10 @@
                                     <td class="img-user-game">
                                         <a href="/user/{{ item.id_user.id }}"><img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_user.picture }}" alt="" /></a>
                                     </td>
-                                    <td>
-                                        <span><a class="search-link" href="/user/{{ item.id_user.id }}">{{ item.id_user.user.username }}<br>
-                                            Sorocaba - SP
-                                        </a></span>
-                                    </td>
-                                    <td>
-                                        <span><a class="search-link" href="/games_by_console/{{ item.id_user.id }}">{{ item.id_user.user.username }}<br></a></span>
+                                    <td class="item-row">
+                                        <div class="centered"><a class="search-link" href="/user/{{ item.id_user.id }}">{{ item.id_user.user.username }}</a> -
+                                            {{ item.id_user.address.city }} - {{ item.id_user.address.uf }}
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -83,8 +93,37 @@
                 {% endif %}
             </div>
             <div id="want" class="tab-pane fade">
-                <h3>Quero</h3>
-                <p>Some content in menu 1.</p>
+                {% if users_want|length == 0 %}
+                <p class="lead text-info">
+                    Ninguém interessado por este jogo
+                </p>
+                {% else %}
+                <div class="row">
+                    <div class="col-sm-8">
+                        <table class="table table-hover table-responsive table-justified">
+                            <thead>
+                                <tr class="text-info">
+                                    <th colspan="2">Usuário</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in users_want %}
+                                <tr>
+                                    <td class="img-user-game">
+                                        <a href="/user/{{ item.id_user.id }}"><img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_user.picture }}" alt="" /></a>
+                                    </td>
+                                    <td class="item-row">
+                                        <div class="centered"><a class="search-link" href="/user/{{ item.id_user.id }}">{{ item.id_user.user.username }}</a> -
+                                            {{ item.id_user.address.city }} - {{ item.id_user.address.uf }}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

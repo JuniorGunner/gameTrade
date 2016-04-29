@@ -23,10 +23,10 @@
         <div class="well well-sm well-item">
             <div class="row item-row">
                 <div class="col-sm-2">
-                    <a href="/game/{{ item.id_game.id }}"><img class="img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ item.id_game.picture }}" alt="" /></a>
+                    <a href="/game/{{ item.id_console.id }}/{{ item.id_game.id }}"><img class="img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ item.picture }}" alt="" /></a>
                 </div>
                 <div class="col-sm-10 centered">
-                    <span><a class="search-link" href="/game/{{ item.id_game.id }}">{{ item.id_game.title }}</a></span>
+                    <span><a class="search-link" href="/game/{{ item.id_console.id }}/{{ item.id_game.id }}">{{ item.id_game.title }}</a></span>
                 </div>
             </div>
         </div>

@@ -22,11 +22,12 @@ def my_account(request):
     users = Users.objects.get(user = request.user)
     return render(request, 'gt/my_account.html', {'users': users})
 
-def game(request, game_id):
-    game = get_object_or_404(Games, pk = game_id)
-    users_have = User_Game.objects.filter(id_game = game, rating = 1)
-    users_want = User_Game.objects.filter(id_game = game, rating = 2)
-    return render(request, 'gt/game.html', {'game': game, 'users_have': users_have, 'users_want': users_want})
+def game(request, console_id, game_id):
+    game = get_object_or_404(Game_Console, id_game = game_id, id_console = console_id)
+    users_have = User_Game.objects.filter(id_game_console = game, rating__description = 'Have')
+    users_want = User_Game.objects.filter(id_game_console = game, rating__description = 'Want')
+    other_consoles = Game_Console.objects.filter(id_game = game_id)
+    return render(request, 'gt/game.html', {'game': game, 'users_have': users_have, 'users_want': users_want, 'other_consoles': other_consoles})
 
 def games_by_console(request, console_id):
     console = get_object_or_404(Consoles, pk = console_id)
@@ -67,7 +68,7 @@ def search(request):
             message = u'Utilize a caixa de pesquisa para buscar por jogo ou usuário'
             return render(request, 'gt/search.html', {'keyword': keyword, 'message': message})
         elif request.GET['search'] == 'game':
-            result = Games.objects.filter(title__icontains = keyword).order_by('title')
+            result = Game_Console.objects.filter(id_game__title__icontains = keyword).order_by('id_game__title')
         else:
             result = Users.objects.filter(user__username__icontains = keyword, user__is_superuser = 0).order_by('user__username')
         result_length = len(result)
