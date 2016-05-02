@@ -1,4 +1,241 @@
-﻿{% extends 'gt/base.html' %}
+{% extends 'gt/base.html' %}
+{% load staticfiles %}
 {% block content %}
-	<p>TODO: TELA DE CONTA DE USUÁRIO </p>
+<div class="col-sm-10 col-adjust">
+    <div class="row game-row">
+        <div class="col-sm-3 side-game game">
+            <div class="well well-sm">
+                <p class="lead text-center">
+                    {{ user_page.user.username }}
+                </p>
+                <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ user_page.picture }}" alt="" />
+                <hr>
+                <div class="star-rating text-center">
+                    <span class="glyphicon {% if rating.value__avg > 0 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="1"></span>
+                    <span class="glyphicon {% if rating.value__avg > 1 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="2"></span>
+                    <span class="glyphicon {% if rating.value__avg > 2 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="3"></span>
+                    <span class="glyphicon {% if rating.value__avg > 3 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="4"></span>
+                    <span class="glyphicon {% if rating.value__avg > 4 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="5"></span>
+                </div>
+                <p class="lead">
+                    Total de Avaliações: {{ rating_count }}
+                </p>
+                <br>
+                <p class="lead">
+                    Nome: <br> {{ user_page.user.first_name }} {{ user_page.user.last_name }}
+                </p>
+                <p class="lead">
+                    Localização: <br> {{ user_page.address.city }} - {{user_page.address.uf}}
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-9 game-content">
+            <div class="well well-sm">
+                <ul class="nav nav-tabs nav-tabs-inverse">
+                    <li class="active"><a data-toggle="tab" href="#have">Tenho</a></li>
+                    <li><a data-toggle="tab" href="#want">Quero</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="have" class="tab-pane fade in active">
+                        {% if games_have|length == 0 %}
+                        <p class="lead text-info">
+                            Não possui nenhum jogo
+                        </p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-responsive table-justified">
+                                    <thead>
+                                        <tr class="text-info">
+                                            <th colspan="2">Jogo</th>
+                                            <th>Console</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in games_have %}
+                                        <tr>
+                                            <td class="img-user-game">
+                                                <a href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                                    <img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_game_console.picture }}" alt="" />
+                                                </a>
+                                            </td>
+                                            <td class="user-row">
+                                                <div>
+                                                    <a class="search-link" href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                                        {{ item.id_game_console.id_game.title }}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td class="user-row">
+                                                <div>
+                                                    <a class="search-link" href="/games_by_console/{{ item.id_game_console.id_console.id }}">
+                                                        {{ item.id_game_console.id_console.name }}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td class="user-row">
+                                                {% if not request.user == user_page.user %}
+                                                <button type="button"
+                                                class="btn btn-success btn-lg btn-trade-width
+                                                {% if not item.id_game_console in requester_games_want %} disabled {% endif %}"
+                                                data-toggle="modal" data-target="{% if item.id_game_console in requester_games_want %} #modal-trade-have-{{ item.id_game_console.id }} {% endif %}">
+                                                Trocar</button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <div id="modal-trade-have-{{ item.id_game_console.id }}" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <div class="lead modal-title">Troca</div>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            <!-->corpo da troca</!-->
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="btn-trade-have" onclick="clickTradeHave({{ item.id_game_console.id }})" type="button" class="btn btn-default" data-dismiss="modal">Salvar</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form id="form-trade-have-{{item.id_game_console.id}}" class="" action="." method="get">
+                                            <input type="hidden" name="type" value="have">
+                                            <input type="hidden" name="game" value="{{item.id_game_console.id}}">
+                                        </form>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div id="want" class="tab-pane fade">
+                        {% if games_want|length == 0 %}
+                        <p class="lead text-info">
+                            Não deseja nenhum jogo
+                        </p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-responsive table-justified">
+                                    <thead>
+                                        <tr class="text-info">
+                                            <th colspan="2">Jogo</th>
+                                            <th>Console</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in games_want %}
+                                        <tr>
+                                            <td class="img-user-game">
+                                                <a href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                                    <img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_game_console.picture }}" alt="" />
+                                                </a>
+                                            </td>
+                                            <td class="user-row">
+                                                <div>
+                                                    <a class="search-link" href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                                        {{ item.id_game_console.id_game.title }}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td class="user-row">
+                                                <div>
+                                                    <a class="search-link" href="/games_by_console/{{ item.id_game_console.id_console.id }}">
+                                                        {{ item.id_game_console.id_console.name }}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td class="user-row action-row">
+                                                {% if not request.user == user_page.user %}
+                                                <div class="row text-center">
+                                                    <div class="col-sm-6">
+                                                        <button type="button"
+                                                        class="btn btn-success btn-lg {% if not item.id_game_console in requester_games_have %} disabled {% endif %}"
+                                                        data-toggle="modal"
+                                                        data-target="{% if item.id_game_console in requester_games_have %} #modal-trade-want-{{ item.id_game_console.id }} {% endif %}">Trocar</button>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <button type="button"
+                                                        class="btn btn-success btn-lg {% if not item.id_game_console in requester_games_have %} disabled {% endif %}"
+                                                        data-toggle="modal"
+                                                        data-target="{% if item.id_game_console in requester_games_have %} #modal-trade-donate-{{item.id_game_console.id}} {% endif %}">Doar</button>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <div id="modal-trade-want-{{ item.id_game_console.id }}" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <div class="lead modal-title">Troca</div>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            <!-->corpo da troca</!-->
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="btn-trade-want" onclick="clickTradeWant({{ item.id_game_console.id }})" type="button" class="btn btn-default" data-dismiss="modal">Salvar</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form id="form-trade-want-{{item.id_game_console.id}}" class="" action="." method="get">
+                                            <input type="hidden" name="type" value="want">
+                                            <input type="hidden" name="game" value="{{item.id_game_console.id}}">
+                                        </form>
+                                        <div id="modal-trade-donate-{{ item.id_game_console.id }}" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <div class="lead modal-title">Troca</div>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            <!-->corpo da troca</!-->
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="btn-trade-want" onclick="clickTradeDonate({{ item.id_game_console.id }})" type="button" class="btn btn-default" data-dismiss="modal">Salvar</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form id="form-trade-donate-{{item.id_game_console.id}}" class="" action="." method="get">
+                                            <input type="hidden" name="type" value="donate">
+                                            <input type="hidden" name="game" value="{{item.id_game_console.id}}">
+                                        </form>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ad" class="col-sm-2 sidenav height-sidenav text-center">
+    <h3>Publicidade</h3>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/PacMan.gif' %}" alt="" />
+    </div>
+    <div class="well well-sm">
+        <img class="ad-img" src="{% static 'images/FlappyBird.gif' %}" alt="" />
+    </div>
+</div>
 {% endblock content %}

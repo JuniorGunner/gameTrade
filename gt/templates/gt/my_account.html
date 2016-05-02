@@ -4,7 +4,7 @@
 <div class="col-sm-2 sidenav my-account">
     <div class="well well-sm text-center">
         <h3>{{ user.username }}</h3>
-        <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ users.picture }}" alt="" />
+        <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ user_req.picture }}" alt="" />
         <a href="#">Alterar</a>
         <hr>
     </div>
@@ -21,12 +21,152 @@
         </ul>
         <div class="tab-content">
             <div id="have" class="tab-pane fade in active">
-                <h3>Tenho</h3>
-                <p>Some content.</p>
+                {% if games_have|length == 0 %}
+                <p class="lead text-info">
+                    Você não possui nenhum jogo
+                </p>
+                {% else %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-hover table-responsive table-justified">
+                            <thead>
+                                <tr class="text-info">
+                                    <th colspan="2">Jogo</th>
+                                    <th>Console</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in games_have %}
+                                <tr>
+                                    <td class="img-user-game">
+                                        <a href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                            <img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_game_console.picture }}" alt="" />
+                                        </a>
+                                    </td>
+                                    <td class="user-row">
+                                        <div>
+                                            <a class="search-link" href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                                {{ item.id_game_console.id_game.title }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="user-row">
+                                        <div>
+                                            <a class="search-link" href="/games_by_console/{{ item.id_game_console.id_console.id }}">
+                                                {{ item.id_game_console.id_console.name }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="user-row action-row">
+                                        <button type="button"
+                                        class="btn btn-danger btn-lg btn-trade-width"
+                                        data-toggle="modal" data-target="#modal-user-have-{{ item.id_game_console.id }}">
+                                        Remover</button>
+                                    </td>
+                                </tr>
+                                <div id="modal-user-have-{{ item.id_game_console.id }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <div class="lead modal-title">Remover</div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    Deseja realmente remover este jogo de sua lista?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button id="btn-user-have" onclick="clickUserHave({{ item.id_game_console.id }})" type="button" class="btn btn-default" data-dismiss="modal">Confirmar</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="form-user-have-{{item.id_game_console.id}}" class="" action="." method="get">
+                                    <input type="hidden" name="game" value="{{item.id}}">
+                                </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
             </div>
             <div id="want" class="tab-pane fade">
-                <h3>Quero</h3>
-                <p>Some content in menu 1.</p>
+                {% if games_want|length == 0 %}
+                <p class="lead text-info">
+                    Você não tem nenhum jogo em sua lista
+                </p>
+                {% else %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-hover table-responsive table-justified">
+                            <thead>
+                                <tr class="text-info">
+                                    <th colspan="2">Jogo</th>
+                                    <th>Console</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in games_want %}
+                                <tr>
+                                    <td class="img-user-game">
+                                        <a href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                            <img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_game_console.picture }}" alt="" />
+                                        </a>
+                                    </td>
+                                    <td class="user-row">
+                                        <div>
+                                            <a class="search-link" href="/game/{{ item.id_game_console.id_console.id }}/{{ item.id_game_console.id_game.id }}">
+                                                {{ item.id_game_console.id_game.title }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="user-row">
+                                        <div>
+                                            <a class="search-link" href="/games_by_console/{{ item.id_game_console.id_console.id }}">
+                                                {{ item.id_game_console.id_console.name }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="user-row action-row">
+                                        <button type="button"
+                                        class="btn btn-danger btn-lg btn-trade-width"
+                                        data-toggle="modal" data-target="#modal-user-want-{{ item.id_game_console.id }}">
+                                        Remover</button>
+                                    </td>
+                                </tr>
+                                <div id="modal-user-want-{{ item.id_game_console.id }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <div class="lead modal-title">Remover</div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    Deseja realmente remover este jogo de sua lista?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button id="btn-user-want" onclick="clickUserWant({{ item.id_game_console.id }})" type="button" class="btn btn-default" data-dismiss="modal">Confirmar</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="form-user-want-{{item.id_game_console.id}}" class="" action="." method="get">
+                                    <input type="hidden" name="game" value="{{item.id}}">
+                                </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
             </div>
             <div id="pending" class="tab-pane fade">
                 <h3>Pendencias</h3>
