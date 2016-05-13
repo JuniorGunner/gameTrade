@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.forms import UserCreationForm
+from gt.forms import *
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from gt.models import *
 
 # Create your views here.
@@ -15,7 +15,22 @@ def register(request):
     if request.user.is_authenticated():
         return redirect('gt.views.my_account')
     else:
-        return render(request, 'gt/user_register.html', {})
+        formAddress = AddressForm()
+        formUser = RegisterForm()
+        if request.method == 'POST':
+            formAddress = AddressForm(request.POST, prefix = 'addressForm')
+            formUser = RegisterForm(request.POST, prefix = 'userForm')
+            if formUser.is_valid() and formAddress.is_valid():
+                a = formAddress.save()
+                u = formUser.save()
+                n = Users.objects.create(address = Address.objects.latest('id'), user = User.objects.latest('id'))
+                n.save()
+                return redirect('gt.views.my_account')
+        context = {
+            'formUser': formUser,
+            'formAddress': formAddress
+        }
+        return render(request, 'gt/user_register.html', context)
 
 @login_required
 def my_account(request):

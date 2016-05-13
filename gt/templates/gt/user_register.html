@@ -1,4 +1,70 @@
 ﻿{% extends 'gt/base.html' %}
 {% block content %}
-	<p>TODO: TELA DE REGISTRO DE USUÁRIO </p>
+	<div class="container">
+		<h2 class="text-center">Cadastro de Usuário</h2>
+		<br/>
+		<form action = "." class = "form-horizontal" method="post">
+			{% csrf_token %}
+			<fieldset>
+				<legend>Dados Principais:</legend>
+				{{ formUser.non_field_errors }}
+				{% for fields in formUser %}
+					<div class="col-sm-4">
+						{{ fields.label_tag }}
+						{{ fields }}
+						{{ fields.errors }}
+					</div>
+				{% endfor %}
+			</fieldset>
+		<br/>
+			<fieldset>
+				<legend>Endereço:</legend>
+				{{ formAddress.non_field_errors }}
+					<div class="col-sm-5">
+						{{ formAddress.street.label }}
+						{{ formAddress.street }}
+						{{ formAddress.street.errors }}
+					</div>
+					<div class="col-sm-1">
+						{{ formAddress.number.label }}
+						{{ formAddress.number }}
+						{{ formAddress.number.errors }}
+					</div>
+					<div class="col-sm-3">
+						{{ formAddress.complement.label }}
+						{{ formAddress.complement }}
+						{{ formAddress.complement.errors }}
+					</div>
+					<div class="col-sm-3">
+						{{ formAddress.district.label }}
+						{{ formAddress.district }}
+						{{ formAddress.district.errors }}
+					</div>
+					<div class="col-sm-2">
+						{{ formAddress.zip_code.label }}
+						{{ formAddress.zip_code }}
+						{{ formAddress.zip_code.errors }}
+					</div>
+					<div class="col-sm-3">
+						{{ formAddress.city.label }}
+						{{ formAddress.city }}
+						{{ formAddress.city.errors }}
+					</div>
+					<div class="col-sm-1">
+						{{ formAddress.uf.label }}
+						{{ formAddress.uf }}
+						{{ formAddress.uf.errors }}
+					</div>
+					<div class="col-sm-3">
+						{{ formAddress.country.label }}
+						{{ formAddress.country }}
+						{{ formAddress.country.errors }}
+					</div>
+			</fieldset>
+			<br/>
+			<button type="submit" class="btn btn-success">Salvar</button>
+		</form>
+		<br/>
+	</div>
+	<br/>
 {% endblock content %}
