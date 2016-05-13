@@ -1,3 +1,33 @@
+var clickTradeHave = function (id) {
+    $('#modal-trade-have-' + String(id)).on('hidden.bs.modal', function () {
+        $('#form-trade-have-' + String(id)).submit();
+    });
+};
+
+var clickTradeWant = function (id) {
+    $('#modal-trade-want-' + String(id)).on('hidden.bs.modal', function () {
+        $('#form-trade-want-' + String(id)).submit();
+    });
+};
+
+var clickTradeDonate = function (id) {
+    $('#modal-trade-donate-' + String(id)).on('hidden.bs.modal', function () {
+        $('#form-trade-donate-' + String(id)).submit();
+    });
+};
+
+var clickUserHave = function (id) {
+    $('#modal-user-have-' + String(id)).on('hidden.bs.modal', function () {
+        $('#form-user-have-' + String(id)).submit();
+    });
+};
+
+var clickUserWant = function (id) {
+    $('#modal-user-want-' + String(id)).on('hidden.bs.modal', function () {
+        $('#form-user-want-' + String(id)).submit();
+    });
+};
+
 var ct = function () {
     var height = [];
 
@@ -44,7 +74,39 @@ $(document).ready(function () {
         }
     });
 
-    var $star_rating = $('.star-rating .glyphicon');
+
+    $('#modal-want .modal-footer #btn-want').on('click', function (e) {
+        $(this).closest('.modal').on('hidden.bs.modal', function () {
+            $('#form-want').submit();
+        });
+    });
+
+    $('#modal-have .modal-footer #btn-have').on('click', function (e) {
+        $(this).closest('.modal').on('hidden.bs.modal', function () {
+            $('#form-have').submit();
+        });
+    });
+
+
+    /*$('#modal-lost-account .modal-footer #btn-lost-account').on('click', function (e) {
+        $(this).closest('.modal').on('hidden.bs.modal', function () {
+            $("input[name='user']").value($('#modal_username').value());
+            $("input[name='email']").value($('#modal_email').value());
+            alert($("input[name='user']").value());
+            alert($("input[name='email']").value());
+            $('#form-lost-account').submit();
+        });
+    });*/
+
+    $('#btn-lost-account').on('click', function (e) {
+        $('#modal-lost-account').on('hidden.bs.modal', function () {
+            $("input[name='user']").val($('#modal_username').val());
+            $("input[name='email']").val($('#modal_email').val());
+            $('#form-lost-account').submit();
+        });
+    });
+
+    /*var $star_rating = $('.star-rating .glyphicon');
 
     var SetRatingStar = function() {
       return $star_rating.each(function() {
@@ -61,16 +123,17 @@ $(document).ready(function () {
       return SetRatingStar();
     });
 
-    SetRatingStar();
+    SetRatingStar();*/
 
-    $('#want').load(ct);
 });
 
 
 
 $(window).load(function(){
-    if($('.height-content').height() > $('.height-sidenav').height())
-        $('.height-sidenav').height($('.height-content').height());
+    /*if($('.height-content').height() > $('.height-sidenav').height())
+        $('.height-sidenav').height($('.height-content').height());*/
 
     ct();
+
+    $('.user-row').css('vertical-align','middle');
 });

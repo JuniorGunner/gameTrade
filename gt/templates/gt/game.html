@@ -1,129 +1,204 @@
 {% extends 'gt/base.html' %}
 {% load staticfiles %}
 {% block content %}
-<div class="col-sm-2 sidenav height-sidenav console">
-    <div class="well well-sm">
-        <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ game.picture }}" alt="" />
-        <hr>
-        <div class="star-rating text-center">
-            <span class="glyphicon glyphicon-star-empty" data-rating="1"></span>
-            <span class="glyphicon glyphicon-star-empty" data-rating="2"></span>
-            <span class="glyphicon glyphicon-star-empty" data-rating="3"></span>
-            <span class="glyphicon glyphicon-star-empty" data-rating="4"></span>
-            <span class="glyphicon glyphicon-star-empty" data-rating="5"></span>
-            <input type="hidden" name="whatever" class="rating-value" value="3">
-        </div>
-        <br>
-        <div class="row text-center">
-            <div class="col-sm-6">
-                <button type="button" class="btn btn-info btn-lg">Tenho</button>
-            </div>
-            <div class="col-sm-6">
-                <button type="button" class="btn btn-info btn-lg">Quero</button>
-            </div>
-        </div>
-        <br>
-        <p class="lead">
-            Plataforma: <br> {{ game.id_console.name }}
-        </p>
-        <p class="lead">
-            Desenvolvedor: <br> {{ game.id_game.id_dev.description }}
-        </p>
-        <p class="lead">
-            Ano de Lançamento: {{ game.id_game.year }}
-        </p>
-        <p class="lead">
-            Gênero: {{ game.id_game.id_genre.description }}
-        </p>
-        {% if other_consoles|length > 1 %}
-            <br>
-            <p class="lead">
-                Outras Plataformas:
-            </p>
-            {% for console in other_consoles %}
-                {% if not console == game %}
-                    <a class="console-link" href="/game/{{ console.id_console.id }}/{{ console.id_game.id }}">{{ console.id_console.name }}</a><br>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-    </div>
-</div>
-<div class="col-sm-8 game-content">
-    <div class="well well-sm">
-        <h2 class="">{{ game.id_game.title }}</h2>
-        <p class="lead">
-            {{ game.id_game.description }}
-        </p>
-        <ul class="nav nav-tabs nav-tabs-inverse">
-            <li class="active"><a data-toggle="tab" href="#have">Tenho</a></li>
-            <li id="want-tab"><a data-toggle="tab" href="#want">Quero</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="have" class="tab-pane fade in active">
-                {% if users_have|length == 0 %}
-                <p class="lead text-info">
-                    Ninguém possui este jogo
-                </p>
-                {% else %}
-                <div class="row">
-                    <div class="col-sm-8">
-                        <table class="table table-hover table-responsive table-justified">
-                            <thead>
-                                <tr class="text-info">
-                                    <th colspan="2">Usuário</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in users_have %}
-                                <tr>
-                                    <td class="img-user-game">
-                                        <a href="/user/{{ item.id_user.id }}"><img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_user.picture }}" alt="" /></a>
-                                    </td>
-                                    <td class="item-row">
-                                        <div class="centered"><a class="search-link" href="/user/{{ item.id_user.id }}">{{ item.id_user.user.username }}</a> -
-                                            {{ item.id_user.address.city }} - {{ item.id_user.address.uf }}
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+<div class="col-sm-10 col-adjust">
+    <div class="row game-row">
+        <div class="col-sm-3 side-game game">
+            <div class="well well-sm">
+                <img class="avatar img-thumbnail img-responsive" src="{{ MEDIA_URL }}{{ game.picture }}" alt="" />
+                <hr>
+                <div class="star-rating text-center">
+                    <span class="glyphicon {% if rating.value__avg > 0 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="1"></span>
+                    <span class="glyphicon {% if rating.value__avg > 1 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="2"></span>
+                    <span class="glyphicon {% if rating.value__avg > 2 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="3"></span>
+                    <span class="glyphicon {% if rating.value__avg > 3 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="4"></span>
+                    <span class="glyphicon {% if rating.value__avg > 4 %} glyphicon-star {% else %} glyphicon-star-empty {% endif %}" data-rating="5"></span>
+                </div>
+                <br>
+                <div class="row text-center">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal-have">Tenho</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal-want">Quero</button>
                     </div>
                 </div>
-                {% endif %}
-            </div>
-            <div id="want" class="tab-pane fade">
-                {% if users_want|length == 0 %}
-                <p class="lead text-info">
-                    Ninguém interessado por este jogo
-                </p>
-                {% else %}
-                <div class="row">
-                    <div class="col-sm-8">
-                        <table class="table table-hover table-responsive table-justified">
-                            <thead>
-                                <tr class="text-info">
-                                    <th colspan="2">Usuário</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in users_want %}
-                                <tr>
-                                    <td class="img-user-game">
-                                        <a href="/user/{{ item.id_user.id }}"><img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_user.picture }}" alt="" /></a>
-                                    </td>
-                                    <td class="item-row">
-                                        <div class="centered"><a class="search-link" href="/user/{{ item.id_user.id }}">{{ item.id_user.user.username }}</a> -
-                                            {{ item.id_user.address.city }} - {{ item.id_user.address.uf }}
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                <div id="modal-want" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="lead modal-title">Quero</div>
+                            </div>
+                            <div class="modal-body">
+                                {% if user.is_authenticated %}
+                                    {% if user_have != None %}
+                                        <p>Você já possui este jogo</p>
+                                    {% elif user_want != None %}
+                                        <p>Você já tem este jogo em sua lista de desejos.</p>
+                                    {% else %}
+                                        <p>
+                                            Deseja realmente adicionar este jogo à sua lista?
+                                        </p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>É necessário estar logado.</p>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                {% if user.is_authenticated %}
+                                    {% if user_want == None and user_have == None %}
+                                            <button id="btn-want" type="button" class="btn btn-default" data-dismiss="modal">Salvar</button>
+                                    {% endif %}
+                                {% endif %}
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div id="modal-have" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="lead modal-title">Tenho</div>
+                            </div>
+                            <div class="modal-body">
+                                {% if user.is_authenticated %}
+                                    {% if user_want != None %}
+                                        <p>Você já possui este jogo em sua lista de desejos</p>
+                                    {% elif user_have != None %}
+                                        <p>Você já tem este jogo em sua lista de jogos.</p>
+                                    {% else %}
+                                        <p>
+                                            Deseja realmente adicionar este jogo à sua lista?
+                                        </p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>É necessário estar logado.</p>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                {% if user.is_authenticated %}
+                                    {% if user_want == None and user_have == None%}
+                                        <button id="btn-have" type="button" class="btn btn-default" data-dismiss="modal">Salvar</button>
+                                    {% endif %}
+                                {% endif %}
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <form id="form-have" class="" action="." method="get">
+                    <input type="hidden" name="type" value="have">
+                </form>
+                <form id="form-want" class="" action="." method="get">
+                    <input type="hidden" name="type" value="want">
+                </form>
+                <p class="lead">
+                    Plataforma: <br> {{ game.id_console.name }}
+                </p>
+                <p class="lead">
+                    Desenvolvedor: <br> {{ game.id_game.id_dev.description }}
+                </p>
+                <p class="lead">
+                    Ano de Lançamento: {{ game.id_game.year }}
+                </p>
+                <p class="lead">
+                    Gênero: {{ game.id_game.id_genre.description }}
+                </p>
+                {% if other_consoles|length > 1 %}
+                    <br>
+                    <p class="lead">
+                        Outras Plataformas:
+                    </p>
+                    {% for console in other_consoles %}
+                        {% if not console == game %}
+                            <a class="console-link" href="/game/{{ console.id_console.id }}/{{ console.id_game.id }}">{{ console.id_console.name }}</a><br>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-9 game-content">
+            <div class="well well-sm">
+                <h2 class="">{{ game.id_game.title }}</h2>
+                <p class="lead">
+                    {{ game.id_game.description }}
+                </p>
+                <ul class="nav nav-tabs nav-tabs-inverse">
+                    <li class="active"><a data-toggle="tab" href="#have">Tenho</a></li>
+                    <li><a data-toggle="tab" href="#want">Quero</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="have" class="tab-pane fade in active">
+                        {% if users_have|length == 0 %}
+                        <p class="lead text-info">
+                            Ninguém possui este jogo
+                        </p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-responsive table-justified">
+                                    <thead>
+                                        <tr class="text-info">
+                                            <th colspan="2">Usuário</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in users_have %}
+                                        <tr>
+                                            <td class="img-user-game">
+                                                <a href="/user_account/{{ item.id_user.id }}"><img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_user.picture }}" alt="" /></a>
+                                            </td>
+                                            <td class="user-row">
+                                                <div><a class="search-link" href="/user_account/{{ item.id_user.id }}">{{ item.id_user.user.username }}</a> -
+                                                    {{ item.id_user.address.city }} - {{ item.id_user.address.uf }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div id="want" class="tab-pane fade">
+                        {% if users_want|length == 0 %}
+                        <p class="lead text-info">
+                            Ninguém interessado por este jogo
+                        </p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-responsive table-justified">
+                                    <thead>
+                                        <tr class="text-info">
+                                            <th colspan="2">Usuário</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in users_want %}
+                                        <tr>
+                                            <td class="img-user-game">
+                                                <a href="/user_account/{{ item.id_user.id }}"><img class="img-thumbnail" src="{{ MEDIA_URL }}{{ item.id_user.picture }}" alt="" /></a>
+                                            </td>
+                                            <td class="user-row">
+                                                <div><a class="search-link" href="/user_account/{{ item.id_user.id }}">{{ item.id_user.user.username }}</a> -
+                                                    {{ item.id_user.address.city }} - {{ item.id_user.address.uf }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

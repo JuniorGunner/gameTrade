@@ -1,3 +1,15 @@
+#main-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
+#main-row > .col-adjust, #main-row > .sidenav {
+  display: flex;
+  flex-direction: column;
+}
+
 /*definicao da fonte*/
 @font-face {
     font-family: offside;
@@ -18,8 +30,8 @@
 .sidenav {
   padding-top: 20px;
   padding-bottom: 20px;
+  min-height: 100vh;
   background-color: #c9c9c9;
-  height: 100vh;
 }
 
 /* Set black background color, white text and some padding */
@@ -115,7 +127,7 @@ h1, h2, h3, h4{
 #btn-login{ width: 30%; margin-left: 35%;}
 .login-label{color: white;}
 .login-link{color: white;}
-.login-link:hover{text-decoration: underline; color: white;}
+.login-link:hover{text-decoration: underline; color: white; cursor: pointer;}
 #login-box a:focus{color: grey;}
 #login-box{background-color: #2B4C70}
 
@@ -153,13 +165,33 @@ h1, h2, h3, h4{
 .star-rating {
   line-height:32px;
   font-size:1.5em;
-  cursor: pointer;
+  /*cursor: pointer;*/
   color: #ffd600;
 }
 
-.game-content{background-color: #467DB8; height: 100vh; padding-top: 20px; padding-bottom: 20px;}
-.game-content > .well {background-color: white; height: 100%;}
-.img-user-game{width: 15%;}
+.game-content{padding-top: 20px; padding-bottom: 20px;}
+.game-content > .well {background-color: white;}
+.img-user-game{width: 10%;}
 .btn-lg{width: 100%;}
 .console-link{color: #2B4C70; font-size: 1.5em; font-family: Helvetica;}
 .console-link:hover{text-decoration: none; color: #467DB8;}
+.game > .well {background-color: white;}
+.side-game {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.game-row{
+    background-color: #467DB8;
+    min-height: 100vh;
+}
+#form-have, #form-want{
+    visibility: hidden;
+}
+
+/*user_page*/
+.btn-trade-width{
+    width: 50%;
+}
+.action-row{
+    width: 30%;
+}

@@ -3,11 +3,26 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from gt.forms import *
+from django.db.models import Avg
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.views import login as view_login
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from gt.models import *
 
 # Create your views here.
+def lost_account(request):
+    if 'user' in request.POST and 'email' in request.POST:
+        try:
+            user = User.objects.get(username = request.POST.get('user'), email = request.POST.get('email'))
+            user_password = user.password
+            email_subject = u"Recuperação de Senha - gameTrade"
+            email_message = u"Link de redefinição de senha para %s : http://gametrade.pythonanywhere.com/ (função indisponível no momento)" % (user.username)
+            user.email_user(subject = email_subject, message = email_message, from_email = 'gametrade016@gmail.com')
+        except ObjectDoesNotExist:
+            pass
+    return redirect(view_login)
+
 def home(request):
     return render(request, 'gt/home.html', {})
 
@@ -34,15 +49,51 @@ def register(request):
 
 @login_required
 def my_account(request):
-    users = Users.objects.get(user = request.user)
-    return render(request, 'gt/my_account.html', {'users': users})
+    user_req = Users.objects.get(user = request.user)
+
+    #removendo jogo da lista
+    if 'game' in request.GET:
+        User_Game.objects.get(pk = request.GET.get('game')).delete()
+
+    games_have = User_Game.objects.filter(id_user = user_req, rating__description = 'Have')
+    games_want = User_Game.objects.filter(id_user = user_req, rating__description = 'Want')
+
+    return render(request, 'gt/my_account.html', {'user_req': user_req, 'games_have': games_have, 'games_want': games_want})
 
 def game(request, console_id, game_id):
     game = get_object_or_404(Game_Console, id_game = game_id, id_console = console_id)
+
+    req = 0
+    if 'type' in request.GET and request.user.is_authenticated():
+        req = request.GET['type']
+        has_one = User_Game.objects.filter(id_game_console = game, id_user__user = request.user)
+        if len(has_one) == 0:
+            if req == 'want':
+                req = Kind.objects.get(description = 'Want')
+            elif req == 'have':
+                req = Kind.objects.get(description = 'Have')
+            user_new = Users.objects.get(user = request.user)
+            ug = User_Game(id_user = user_new, id_game_console = game, rating = req)
+            ug.save()
+
     users_have = User_Game.objects.filter(id_game_console = game, rating__description = 'Have')
     users_want = User_Game.objects.filter(id_game_console = game, rating__description = 'Want')
     other_consoles = Game_Console.objects.filter(id_game = game_id)
-    return render(request, 'gt/game.html', {'game': game, 'users_have': users_have, 'users_want': users_want, 'other_consoles': other_consoles})
+    rating = Game_Rating.objects.filter(id_game = game.id_game).aggregate(Avg('value'))
+    user_want = 0
+    user_have = 0
+    if request.user.is_authenticated():
+        user = Users.objects.get(user = request.user)
+        try:
+            user_have = users_have.get(id_user = user)
+        except ObjectDoesNotExist:
+            user_have = None
+        try:
+            user_want = users_want.get(id_user = user)
+        except ObjectDoesNotExist:
+            user_want = None
+    return render(request, 'gt/game.html', {'game': game, 'users_have': users_have, 'users_want': users_want, \
+    'other_consoles': other_consoles, 'rating': rating, 'user_have': user_have, 'user_want': user_want, 'req': req})
 
 def games_by_console(request, console_id):
     console = get_object_or_404(Consoles, pk = console_id)
@@ -72,8 +123,38 @@ def games_by_console(request, console_id):
             init = final - 5
     return render(request, 'gt/games_by_console.html', {'console': console, 'games': games, 'n': range(init, final), 'page': page})
 
-def user_account(request):
-	return render(request, 'gt/user_account.html', {})
+def user_account(request, user_id):
+    user = get_object_or_404(Users, pk = user_id)
+
+    games_have = User_Game.objects.filter(id_user = user, rating__description = 'Have')
+    games_want = User_Game.objects.filter(id_user = user, rating__description = 'Want')
+
+    #inicio bloco de troca
+    #user_requester = None
+    #user_requested = None
+
+    if 'game' in request.GET and 'type' in request.GET and request.user.is_authenticated():
+        user_requested = user
+        user_requester = Users.objects.get(user = request.user)
+        game = Game_Console.objects.get(pk = request.GET.get('game'))
+
+        req_type = request.GET.get('type')
+        #if req_type == 'have':
+        #elif req_type == 'want':
+        #elif req_type == 'donate':
+    #fim bloco de troca
+
+    requester_games_have = 0
+    requester_games_want = 0
+    if request.user.is_authenticated():
+        requester_games_want = Game_Console.objects.filter(user_game__id_user__user = request.user, user_game__rating__description = 'Want')
+        requester_games_have = Game_Console.objects.filter(user_game__id_user__user = request.user, user_game__rating__description = 'Have')
+
+    rating = User_Rating.objects.filter(id_user = user).aggregate(Avg('value'))
+    rating_count = User_Rating.objects.filter(id_user = user).count()
+
+    return render(request, 'gt/user_account.html', {'user_page': user, 'games_have': games_have, 'games_want': games_want, 'rating': rating \
+    , 'rating_count': rating_count, 'requester_games_have': requester_games_have, 'requester_games_want': requester_games_want})
 
 def search(request):
         keyword = request.GET['search-value']

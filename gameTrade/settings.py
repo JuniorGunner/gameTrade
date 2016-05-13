@@ -29,7 +29,7 @@ if DEBUG is True:
     ALLOWED_HOSTS = []
 else:
     #ALLOWED_HOSTS = ['localhost']
-    ALLOWED_HOSTS = ['alanra.pythonanywhere.com']
+    ALLOWED_HOSTS = ['gametrade.pythonanywhere.com']
 
 
 # Application definition
@@ -82,16 +82,28 @@ WSGI_APPLICATION = 'gameTrade.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'GameTrade',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+if DEBUG is True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'GameTrade',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'GameTrade$GameTrade',
+            'USER': 'GameTrade',
+            'PASSWORD': 'root2016',
+            'HOST': 'GameTrade.mysql.pythonanywhere-services.com',
+            'PORT': '3306',
+        }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -117,10 +129,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 if DEBUG is True:
     MEDIA_URL = '/media/'
 else:
-    MEDIA_URL = 'http://alanra.pythonanywhere.com/'
+    MEDIA_URL = 'http://gametrade.pythonanywhere.com/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/'
+
+DEFAULT_FROM_EMAIL = "gametrade016@gmail.com"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=587
+EMAIL_HOST_USER="gametrade016@gmail.com"
+EMAIL_HOST_PASSWORD=r"root2016"
+EMAIL_USE_TLS=True

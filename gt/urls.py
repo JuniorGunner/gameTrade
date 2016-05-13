@@ -9,8 +9,9 @@ urlpatterns = [
 	url(r'^my_account/$', views.my_account, name="gt-my-account"),
 	url(r'^game/(?P<console_id>\d+)/(?P<game_id>\d+)/$', views.game, name="gt-game"),
 	url(r'^games_by_console/(?P<console_id>\d+)/$', views.games_by_console, name="gt-games-by-console"),
-	url(r'^user_accoun/t$', views.user_account, name="gt-user-account"),
+	url(r'^user_account/(?P<user_id>\d+)/$', views.user_account, name="gt-user-account"),
 	url(r'^search/$', views.search, name="gt-search"),
     url(r'^about/$', views.about, name="gt-about"),
     url(r'^logout/$', logout_then_login, {'login_url': '/login'}, name="gt-logout"),
+    url(r'^lost_account/$', views.lost_account, name="gt-lost-account"),
 ]
