@@ -125,6 +125,8 @@ $(document).ready(function () {
 
     SetRatingStar();*/
 
+    $('#user-create input').addClass('form-control');
+
 });
 
 

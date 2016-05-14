@@ -3,7 +3,7 @@
 	<div class="container">
 		<h2 class="text-center">Cadastro de Usuário</h2>
 		<br/>
-		<form action = "." class = "form-horizontal" method="post">
+		<form id="user-create" action = "." class = "form-horizontal" method="post">
 			{% csrf_token %}
 			<fieldset>
 				<legend>Dados Principais:</legend>
@@ -21,42 +21,37 @@
 				<legend>Endereço:</legend>
 				{{ formAddress.non_field_errors }}
 					<div class="col-sm-5">
-						{{ formAddress.street.label }}
+						{{ formAddress.street.label_tag }}
 						{{ formAddress.street }}
-						{{ formAddress.street.errors }}
 					</div>
 					<div class="col-sm-1">
-						{{ formAddress.number.label }}
+						{{ formAddress.number.label_tag }}
 						{{ formAddress.number }}
-						{{ formAddress.number.errors }}
 					</div>
 					<div class="col-sm-3">
-						{{ formAddress.complement.label }}
+						{{ formAddress.complement.label_tag }}
 						{{ formAddress.complement }}
-						{{ formAddress.complement.errors }}
 					</div>
 					<div class="col-sm-3">
-						{{ formAddress.district.label }}
+						{{ formAddress.district.label_tag }}
 						{{ formAddress.district }}
-						{{ formAddress.district.errors }}
 					</div>
 					<div class="col-sm-2">
-						{{ formAddress.zip_code.label }}
+						{{ formAddress.zip_code.label_tag }}
 						{{ formAddress.zip_code }}
-						{{ formAddress.zip_code.errors }}
 					</div>
 					<div class="col-sm-3">
-						{{ formAddress.city.label }}
+						{{ formAddress.city.label_tag }}
 						{{ formAddress.city }}
 						{{ formAddress.city.errors }}
 					</div>
 					<div class="col-sm-1">
-						{{ formAddress.uf.label }}
+						{{ formAddress.uf.label_tag }}
 						{{ formAddress.uf }}
 						{{ formAddress.uf.errors }}
 					</div>
 					<div class="col-sm-3">
-						{{ formAddress.country.label }}
+						{{ formAddress.country.label_tag }}
 						{{ formAddress.country }}
 						{{ formAddress.country.errors }}
 					</div>

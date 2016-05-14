@@ -13,13 +13,13 @@ def upload_to_console(instance, filename):
 
 class Address(models.Model):
     street = models.CharField('Rua', max_length = 200, blank = True)
-    number = models.IntegerField('Nº', blank = True)
+    number = models.IntegerField('Nº', blank = True, null = True)
     complement = models.CharField('Complemento', max_length = 30, blank = True)
     district = models.CharField('Bairro', max_length = 50, blank = True)
     zip_code = models.CharField('CEP', max_length = 9, blank = True)
-    city = models.CharField('Cidade', max_length = 50, blank = True)
-    uf = models.CharField('UF', max_length = 2, blank = True)
-    country = models.CharField('País', max_length = 30, blank = True)
+    city = models.CharField('Cidade', max_length = 50)
+    uf = models.CharField('UF', max_length = 2)
+    country = models.CharField('País', max_length = 30)
 
     def __str__(self):
         return 'Address: {}, {} - {} - {} - {}'.format(self.street, self.number, self.district, self.city, self.uf)
@@ -84,7 +84,7 @@ class Game_Console(models.Model):
 class User_Game(models.Model):
     id_user = models.ForeignKey(Users, verbose_name = 'Usuário')
     id_game_console = models.ForeignKey(Game_Console, verbose_name = 'Jogo/Console')
-    want_have = models.ForeignKey(Kind, verbose_name = 'Quero/Tenho') #1 - Want, 2 - Have
+    rating = models.ForeignKey(Kind, verbose_name = 'Quero/Tenho') #1 - Want, 2 - Have
 
 class Game_Rating(models.Model):
     id_user = models.ForeignKey(Users, verbose_name = 'Usuário')
