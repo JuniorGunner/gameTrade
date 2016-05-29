@@ -74,7 +74,7 @@
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td class="user-row">
+                                            <td class="user-row action-row">
                                                 {% if not request.user == user_page.user %}
                                                 <button type="button"
                                                 class="btn btn-success btn-lg btn-trade-width
@@ -93,7 +93,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>
-                                                            <!-->corpo da troca</!-->
+                                                            Confirmar solicitação de troca
                                                         </p>
                                                     </div>
                                                     <div class="modal-footer">
@@ -103,7 +103,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <form id="form-trade-have-{{item.id_game_console.id}}" class="" action="." method="get">
+                                        <form id="form-trade-have-{{item.id_game_console.id}}" class="" action="." method="post">
+                                            {% csrf_token %}
                                             <input type="hidden" name="type" value="have">
                                             <input type="hidden" name="game" value="{{item.id_game_console.id}}">
                                         </form>
@@ -159,51 +160,22 @@
                                                         <button type="button"
                                                         class="btn btn-success btn-lg {% if not item.id_game_console in requester_games_have %} disabled {% endif %}"
                                                         data-toggle="modal"
-                                                        data-target="{% if item.id_game_console in requester_games_have %} #modal-trade-want-{{ item.id_game_console.id }} {% endif %}">Trocar</button>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <button type="button"
-                                                        class="btn btn-success btn-lg {% if not item.id_game_console in requester_games_have %} disabled {% endif %}"
-                                                        data-toggle="modal"
                                                         data-target="{% if item.id_game_console in requester_games_have %} #modal-trade-donate-{{item.id_game_console.id}} {% endif %}">Doar</button>
                                                     </div>
                                                 </div>
                                                 {% endif %}
                                             </td>
                                         </tr>
-                                        <div id="modal-trade-want-{{ item.id_game_console.id }}" class="modal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <div class="lead modal-title">Troca</div>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>
-                                                            <!-->corpo da troca</!-->
-                                                        </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button id="btn-trade-want" onclick="clickTradeWant({{ item.id_game_console.id }})" type="button" class="btn btn-default" data-dismiss="modal">Salvar</button>
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <form id="form-trade-want-{{item.id_game_console.id}}" class="" action="." method="get">
-                                            <input type="hidden" name="type" value="want">
-                                            <input type="hidden" name="game" value="{{item.id_game_console.id}}">
-                                        </form>
                                         <div id="modal-trade-donate-{{ item.id_game_console.id }}" class="modal fade" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <div class="lead modal-title">Troca</div>
+                                                        <div class="lead modal-title">Doar</div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>
-                                                            <!-->corpo da troca</!-->
+                                                            Deseja realmente abrir uma solicitação de doação?
                                                         </p>
                                                     </div>
                                                     <div class="modal-footer">
@@ -213,7 +185,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <form id="form-trade-donate-{{item.id_game_console.id}}" class="" action="." method="get">
+                                        <form id="form-trade-donate-{{item.id_game_console.id}}" class="" action="." method="post">
+                                            {% csrf_token %}
                                             <input type="hidden" name="type" value="donate">
                                             <input type="hidden" name="game" value="{{item.id_game_console.id}}">
                                         </form>

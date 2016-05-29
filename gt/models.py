@@ -25,6 +25,9 @@ class Users(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     address = models.OneToOneField(Address, on_delete = models.CASCADE)
 
+    def __str__(self):
+        return 'User: {}'.format(self.user.username)
+
 class Kind(models.Model):
     group = models.CharField(max_length = 100)
     description = models.CharField(max_length = 200)
@@ -70,6 +73,9 @@ class User_Game(models.Model):
     id_game_console = models.ForeignKey(Game_Console)
     rating = models.ForeignKey(Kind) #1 - Want, 2 - Have
 
+    def __str__(self):
+        return 'User_Game: {} - {} - {}'.format(self.id_user.user.username, self.id_game_console.id_game.title, self.rating.description)
+
 class Game_Rating(models.Model):
     id_user = models.ForeignKey(Users)
     id_game = models.ForeignKey(Games)
@@ -80,11 +86,11 @@ class Trades(models.Model):
     id_user_requested = models.ForeignKey(Users, related_name = 'trades_user_requested')
     user_requester_status = models.BooleanField()
     user_requested_status = models.BooleanField()
-    id_game_requester = models.ForeignKey(Games, related_name = 'trades_games_requester')
-    id_game_requested = models.ForeignKey(Games, related_name = 'trades_games_requested')
+    id_game_requester = models.ForeignKey(User_Game, blank = True, null = True, related_name = 'trades_games_requester')
+    id_game_requested = models.ForeignKey(User_Game, blank = True, null = True, related_name = 'trades_games_requested')
     trade_kind = models.ForeignKey(Kind, related_name = 'trades_kind')
     status_kind = models.ForeignKey(Kind, related_name = 'trades_status')
-    date = models.DateField()
+    date = models.DateField(blank = True, null = True)
 
 class Chat(models.Model):
     id_trade = models.ForeignKey(Trades)

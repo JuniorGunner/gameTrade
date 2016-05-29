@@ -90,10 +90,12 @@
                     </div>
                 </div>
                 <br>
-                <form id="form-have" class="" action="." method="get">
+                <form id="form-have" class="" action="." method="post">
+                    {% csrf_token %}
                     <input type="hidden" name="type" value="have">
                 </form>
-                <form id="form-want" class="" action="." method="get">
+                <form id="form-want" class="" action="." method="post">
+                    {% csrf_token %}
                     <input type="hidden" name="type" value="want">
                 </form>
                 <p class="lead">
