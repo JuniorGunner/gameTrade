@@ -6,7 +6,7 @@ gameTrade is an online platform designed for game exchanges, embracing the princ
 
 ## Features
 
-User Profiles: Create and manage your profile.
-Game Listings: List games you want to trade and see available games from others.
-Trade Mechanism: Seamlessly request and approve game exchanges.
-Reviews & Ratings: Rate and review your trade experience.
+* **User Profiles:** Create and manage your profile.
+* **Game Listings:** List games you want to trade and see available games from others.
+* **Trade Mechanism:** Seamlessly request and approve game exchanges.
+* **Reviews & Ratings:** Rate and review your trade experience.
